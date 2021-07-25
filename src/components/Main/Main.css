@@ -1,0 +1,61 @@
+.main{
+    
+    height: 100vh;
+    background: rgb(64,64,64);
+    background: linear-gradient(105deg, rgb(22, 22, 22) 0%, rgba(9,9,9,1) 35%, rgba(11,11,11,1) 100%);
+    grid-area: body;
+}
+
+.app_bar{
+    height: 60px;
+    z-index: 2;
+    width: 100%;
+    background: rgb(20, 20, 20);
+    
+    
+}
+.app__bar__container{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.login__button__nav{
+    background-color: #fff;
+    text-decoration: none;
+    color: #181818;
+    border: 2px solid transparent;
+    border-radius: 500px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.76px;
+    line-height: 18px;
+    padding: 8px 34px;
+    transition: all 33ms;
+}
+.login__button__nav:hover{
+    transform: scale(1.04);
+}
+.nav__buttons{
+    display: flex;
+    gap:10px;
+    align-items: center;
+}
+.nav__buttons a{
+    color: #999;
+    width: 35px;
+    height: 35px;
+    background-color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav__buttons a svg{
+    fill: currentColor !important;
+}
+
+

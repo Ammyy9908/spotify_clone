@@ -1,0 +1,126 @@
+.sidebar{
+    background-color: var(--color-sidebar);
+    grid-area: sidebar;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: relative;
+    z-index: 3;
+}
+.sidebar__container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    width: 100%;
+    padding-top: 24px;
+}
+.logo__banner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo__banner a{
+    flex: 1;
+    margin-bottom: 18px;
+    padding:0 24px;
+    color: #fff;
+}
+.logo__banner a svg{
+    height: 40px;
+    max-width: 131px;
+    width: 100%;
+}
+.nav__links{
+    list-style: none;
+    padding:0;
+}
+.nav__links li{
+    padding:0 8px;
+    border: 0;
+}
+.nav__links li a{
+    color: #999;
+    text-decoration: none;
+  transition: color .3s ease-in-out;
+    padding:0 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    height: 40px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    gap:10px;
+}
+.nav__links li a:hover{
+    color: #fff;
+}
+
+.nav__links li .active_link{
+    background-color: #282828;
+}
+
+.playlists{
+    flex: 1;
+    flex-grow: 1;
+    margin-top: 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.playlist__container{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.play_list_btn{
+    display: block;
+}
+
+.play_list_btn button{
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    min-height: max-content;
+    opacity: .7;
+    padding:8px 24px 8px 24px;
+    transition: opacity .2s linear;
+    width: 100%;
+}
+.button__icon{
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 4px; */
+    background-color: #ccc;
+}
+.btn_text{
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: 16px;
+    font-weight: 600;
+}
+.gradient_btn{
+    background: linear-gradient(
+        135deg
+        ,#450af5,#c4efd9) !important;
+}
+.gradient_btn svg{
+    fill: #fff;
+}
+.play_list_btn button:hover{
+   
+    opacity: 1;
+}
