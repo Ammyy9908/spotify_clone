@@ -61,6 +61,7 @@
 
 .nav__links li .active_link{
     background-color: #282828;
+    color: #fff;
 }
 
 .playlists{

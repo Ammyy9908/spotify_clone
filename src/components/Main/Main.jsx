@@ -1,6 +1,5 @@
 import React from 'react'
 import "./Main.css"
-import {FiChevronLeft,FiChevronRight} from "react-icons/fi"
 
 function AppBar(){
    return  <div className="app_bar">
