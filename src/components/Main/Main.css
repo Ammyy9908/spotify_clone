@@ -2,15 +2,19 @@
     
     height: 100vh;
     background: rgb(64,64,64);
-    background: linear-gradient(105deg, rgb(22, 22, 22) 0%, rgba(9,9,9,1) 35%, rgba(11,11,11,1) 100%);
+    background: linear-gradient(170deg, rgba(76, 79, 248, 0.89) 0%, rgba(9,9,9,1) 35%, rgba(11,11,11,1) 100%);
     grid-area: body;
+    overflow-y: scroll;
+
 }
 
 .app_bar{
     height: 60px;
     z-index: 2;
     width: 100%;
-    background: rgb(20, 20, 20);
+    background: rgba(32, 32, 32, 0.493);
+    position: sticky;
+    top: 0;
     
     
 }
@@ -58,5 +62,255 @@
 .nav__buttons a svg{
     fill: currentColor !important;
 }
+.content__body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: relative;
+    height: 100%;
+    
+}
+.view__container{
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    height: 100%;
+}
+
+.home__body{
+    display: block;
+    height: 100%;
+   
+}
+
+.section__body,.search__page{
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    height: 100%;
+    /* overflow-y: scroll; */
+}
+.browse__all{
+    margin-bottom: 35px;
+}
+.sections{
+    grid-gap: 24px;
+    display: grid;
+    padding-top: 24px;
+    margin: 0;
+    max-width: 1955px;
+    
+}
+
+.grid__container{
+    --minimumColumnWidth: 180px;
+    margin-top: 16px;
+    grid-gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(var(--minimumColumnWidth),1fr));
+}
+.grid__wrapper{
+    grid-column: 1/-1;
+}
+
+.browse__all{
+    padding: 16px 0;
+}
+.browse__all section{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    min-height: 300px;
+    min-width: 100%;
+    position: relative;
+}
+.browse__header{
+    grid-column: 1/-1;
+}
+.browse__header > div{
+    display: flex;
+    margin-bottom: 16px;
+    align-items: flex-end;
+}
+.browse__header > div > div{
+    flex-grow: 1;
+}
+.browse__header > div > div > h2{
+    color: #fff;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.browse__cards{
+    --minimumColumnWidth: 180px;
+    grid-auto-rows: auto;
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow-y: hidden;
+    grid-gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(var(--minimumColumnWidth),1fr));
+}
+.browse__card{
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    color: #ffff;
+    text-decoration: none;
+    height: 207px;
+}
+.browse__card > div > img{
+    position: absolute;
+    transform: rotate(
+25deg
+) translate(18%,-2%);
+box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+height: 100px;
+position: absolute;
+width: 100px;
+bottom: 0;
+right: 0;
+}
+.browse__card__text{
+    font-size: 24px;
+    letter-spacing: -.04em;
+    line-height: 1.3em;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    padding: 16px;
+   position: absolute;
+   top: -25px;
+   left: 0;
+   
+}
+
+.recommendation__section{
+    width: 100%;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+}
+.recommendation__header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.recommendation__header h2{
+    color: #fff;
+    font-size: 32px;
+}
 
 
+.recommendation__grid{
+    --minimumColumnWidth: 270px;
+    row-gap: 16px;
+    grid-auto-rows: auto;
+    grid-template-rows: 1fr;
+    overflow-y: hidden;
+    grid-gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(var(--minimumColumnWidth),1fr));
+}
+.recommendation__card{
+    background-color: rgba(255,255,255,.1);
+    border-radius: 4px;
+    height: 80px;
+    transition: background-color .3s ease;
+    cursor: pointer;
+}
+.rcard__wrapper{
+    display: flex;
+    user-select: none;
+    height: 100%;
+}
+
+.rcard__thumb{
+    min-height: 80px;
+    min-width: 80px;
+}
+.rcard__thumb__cover{
+    background-color: rgba(255,255,255,.2);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 50%);
+    padding-bottom: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.rcard__thumb__cover img{
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    border-radius: 4px 0 0 4px;
+}
+.rcard__content{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 16px;
+    align-items: center;
+    height: 100%;
+}
+.rcard__content a{
+    color: #fff;
+    text-decoration: none;
+}
+.rcard__content a p{
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.rcard__button{
+    margin-left: 8px;
+    border-radius: 500px;
+    box-shadow: 0 8px 8px rgb(0 0 0 / 30%);
+    display: flex;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 2;
+    position: relative;
+}
+.rcard__button button{
+    --size: 40px;
+    background-color: #1db954;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 500px;
+    height: var(--size);
+    min-width: var(--size);
+    font-size: 8px;
+    transition: transform 33ms cubic-bezier(.3,0,0,1),-webkit-transform 33ms cubic-bezier(.3,0,0,1);
+    width: var(--size);
+}
+.play_btn:hover{
+    transform: scale(1.08);
+   
+}
+
+.recommendation__card:hover .rcard__button{
+    opacity: 1;
+}
+
+
+@media screen and (min-width:1024px){
+    .contentSpacing{
+        padding:0 32px;
+    }
+}
