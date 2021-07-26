@@ -82,6 +82,7 @@
 }
 .play_list_btn{
     display: block;
+    position: relative;
 }
 
 .play_list_btn button{
@@ -89,10 +90,10 @@
     align-items: center;
     background-color: transparent;
     border: 0;
-    color: #fff;
+    color: rgb(218, 218, 218);
     cursor: pointer;
     min-height: max-content;
-    opacity: .7;
+    
     padding:8px 24px 8px 24px;
     transition: opacity .2s linear;
     width: 100%;
@@ -124,4 +125,95 @@
 .play_list_btn button:hover{
    
     opacity: 1;
+}
+
+.logout__tooltip{
+    position: absolute;
+    max-width: 336px;
+    transition-duration: 300ms;
+    background-color: #1173eb;
+    border-radius: 8px;
+    z-index: 10;
+    right: -290px;
+    box-shadow: 0 4px 40px rgb(0 0 0 / 30%);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: start;
+    opacity: 1;
+    transition-property: transform,visibility,opacity,-webkit-transform;
+}
+.tooltip__content{
+    transition-duration: 300ms;
+    padding: 16px;
+    position: relative;
+}
+.tooltip__content__wrapper{
+    max-width: 336px;
+    min-width: 300px;
+    position: relative;
+    z-index: 1;
+}
+.tooltip__title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-weight: 700;
+}
+.tooltip__title p{
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 24px;
+    text-transform: none;
+    margin: 0;
+}
+.tool__top__text > p{
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+}
+.tooltip__actions{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+.tooltip__actions button{
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 500px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.76px;
+    line-height: 18px;
+    padding: 8px 34px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 33ms cubic-bezier(.3,0,0,1);
+    
+}
+.tooltip__actions button:nth-child(1){
+    background-color: transparent;
+}
+.tooltip__actions button:nth-child(2){
+    background-color: #1db954;
+}
+.tooltip__arrow{
+    position: absolute;
+    top: 0px;
+    transform: translate(-5px, 114px) rotate(45deg);
+    left: 0;
+    background-color: #1173eb;
+    height: 16px;
+    width: 16px;
 }

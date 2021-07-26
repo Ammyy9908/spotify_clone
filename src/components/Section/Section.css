@@ -1,0 +1,156 @@
+.section{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    min-height: 300px;
+    min-width: 100%;
+    position: relative;
+    padding-bottom: 35px;
+    
+}
+.section__header{
+    grid-column: 1/-1;
+}
+.section__header__content{
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 16px;
+}
+.section__heading{
+    flex-grow: 1;
+    min-width: 0;
+}
+.section__heading h2{
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 28px;
+    text-transform: none;
+    color: #fff;
+}
+.section__header__content a{
+    margin-left: 8px;
+    background: transparent;
+    color: #b3b3b3;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.section__header__content a span{
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    line-height: 16px;
+    text-transform: uppercase;
+}
+.section__grid__container{
+    grid-auto-rows: 0;
+    display: grid;
+    overflow-y: hidden;
+    grid-gap: 24px;
+    grid-template-rows: 1fr;
+    --minimumColumnWidth: 180px;
+    overflow-y: hidden;
+    grid-template-columns: repeat(auto-fill,minmax(var(--minimumColumnWidth),1fr));
+}
+.section__card{
+    background: #181818;
+    border-radius: 4px;
+    padding: 16px;
+    position: relative;
+    transition: background-color .3s ease;
+    cursor: pointer;
+   
+}
+.section__card:hover .card_play_btn{
+    opacity: 1;
+    bottom:12px;
+}
+.section__card__body{
+    height: 100%;
+    user-select: none;
+}
+.card__thumb{
+    width: 175px;
+    height: 175px;
+    margin-bottom: 16px;
+    position: relative;
+}
+.card__image{
+    background-color: #333;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 50%);
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.card__image > div{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.card__image > div > img{
+    
+    object-fit: cover;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.card_play_btn{
+    position: absolute;
+    right: 8px;
+    border-radius: 500px;
+    bottom: 8px;
+    box-shadow: 0 8px 8px rgb(0 0 0 / 30%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+    z-index: 2;
+}
+.card_play_btn button{
+    --size: 40px;
+    background-color: #1db954;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    font-size: 8px;
+    height: var(--size);
+    min-width: var(--size);
+    border-radius: inherit;
+}
+
+.card__meta{
+    min-height: 62px;
+}
+.card__meta a{
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: middle;
+    color: #fff;
+    text-decoration: none;
+}
+.card__meta a div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 24px;
+    text-transform: none;
+}
+
+.card__exta__info{
+    color: rgb(179, 179, 179);
+    margin-top: 4px;
+    white-space: normal;
+    font-size: 14px;
+    font-weight: 400;
+}
