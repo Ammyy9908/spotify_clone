@@ -1,0 +1,16 @@
+.track{
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+.track__wrapper{
+    grid-template-columns: [index] 16px [first] 6fr [var1] 4fr [var2] 3fr [last] minmax(120px,1fr);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    height: 56px;
+    position: relative;
+    padding: 0 16px;
+    grid-gap:16px;
+    display: grid;
+}

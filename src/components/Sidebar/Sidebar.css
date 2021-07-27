@@ -127,93 +127,53 @@
     opacity: 1;
 }
 
-.logout__tooltip{
-    position: absolute;
-    max-width: 336px;
-    transition-duration: 300ms;
-    background-color: #1173eb;
-    border-radius: 8px;
-    z-index: 10;
-    right: -290px;
-    box-shadow: 0 4px 40px rgb(0 0 0 / 30%);
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.4;
-    text-align: start;
-    opacity: 1;
-    transition-property: transform,visibility,opacity,-webkit-transform;
+.divider hr{
+    --left-sidebar-item-height: 32px;
+    --left-sidebar-padding-left: 24px;
+    --left-sidebar-padding-right: 24px;
+    background-color: #282828;
+    border: none;
+    height: 1px;
+    margin: 8px var(--left-sidebar-padding-right) 0 var(--left-sidebar-padding-left);
+    min-height: 1px;
+
 }
-.tooltip__content{
-    transition-duration: 300ms;
-    padding: 16px;
-    position: relative;
+
+.user__playlists{
+    list-style: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
 }
-.tooltip__content__wrapper{
-    max-width: 336px;
-    min-width: 300px;
-    position: relative;
-    z-index: 1;
+.user__playlists li div{
+    
+    padding-left: 24px;
+    padding-right: 24px;
 }
-.tooltip__title{
+.user__playlists li div a{
+    --left-sidebar-item-height: 32px;
+    --left-sidebar-padding-left: 24px;
+    --left-sidebar-padding-right: 24px;
+    --left-sidebar-item-indentation-width: 16px;
+    --left-sidebar-edit-input-height: 26px;
+    color: #b3b3b3;
+    text-decoration: none;
     display: flex;
+    height: var(--left-sidebar-item-height);
+    justify-content: flex-start;
+    line-height: var(--left-sidebar-item-height);
+    overflow: hidden;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    font-weight: 700;
 }
-.tooltip__title p{
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: normal;
-    line-height: 24px;
-    text-transform: none;
-    margin: 0;
-}
-.tool__top__text > p{
-    margin: 0;
-    white-space: pre-wrap;
+.user__playlists li div a span{
     font-size: 14px;
     font-weight: 400;
     letter-spacing: normal;
-    line-height: 16px;
+    line-height: 20px;
     text-transform: none;
-}
-.tooltip__actions{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 24px;
-}
-.tooltip__actions button{
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid transparent;
-    border-radius: 500px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.76px;
-    line-height: 18px;
-    padding: 8px 34px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: all 33ms cubic-bezier(.3,0,0,1);
-    
-}
-.tooltip__actions button:nth-child(1){
-    background-color: transparent;
-}
-.tooltip__actions button:nth-child(2){
-    background-color: #1db954;
-}
-.tooltip__arrow{
-    position: absolute;
-    top: 0px;
-    transform: translate(-5px, 114px) rotate(45deg);
-    left: 0;
-    background-color: #1173eb;
-    height: 16px;
-    width: 16px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

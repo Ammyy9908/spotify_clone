@@ -10,14 +10,17 @@
 
 .app_bar{
     height: 60px;
-    z-index: 2;
+    z-index: 99;
     width: 100%;
-    background: rgba(32, 32, 32, 0.493);
+    background: rgba(32, 32, 32, 0);
     position: sticky;
     top: 0;
+
     
     
 }
+
+
 .app__bar__container{
     width: 90%;
     margin: 0 auto;
@@ -50,6 +53,7 @@
 }
 .nav__buttons a{
     color: #999;
+    border: 0;
     width: 35px;
     height: 35px;
     background-color: #000;
@@ -57,7 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: not-allowed;
+    cursor: pointer;
 }
 .nav__buttons a svg{
     fill: currentColor !important;
@@ -306,6 +310,143 @@ right: 0;
 
 .recommendation__card:hover .rcard__button{
     opacity: 1;
+}
+
+
+.auth_drop{
+    background-color: rgba(0,0,0,.7);
+    border: 0;
+    border-radius: 23px;
+    cursor: pointer;
+    height: 32px;
+    margin-inline-start: 16px;
+    padding: 2px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 175px;
+    padding-right: 5px;
+    position: relative;
+}
+.auth__avatar{
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+.auth__avatar img{
+    border-radius: 50%;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+.auth_drop span{
+    display: block;
+    line-height: 28px;
+    margin-inline-start: 8px;
+    max-width: 110px;
+    overflow: hidden;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+    color: #fff;
+}
+.auth_drop button{
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    color: #fff;
+}
+.auth_drop  svg{
+    fill: #fff;
+}
+.upgrade__btn{
+    background-color: rgba(0,0,0,.7);
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 500px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.76px;
+    line-height: 18px;
+    padding: 8px 34px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 33ms cubic-bezier(.3,0,0,1);
+    will-change: transform;
+}
+
+.app__dropdown{
+    z-index: 9999;
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    top: 25px;
+}
+
+.context-menu{
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+.dropdown__wrapper{
+    min-width: 196px;
+}
+.dropdown__wrapper ul{
+    background-color: #282828;
+    border-radius: 4px;
+    box-shadow: 0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%);
+    max-height: calc(100vh - 24px);
+    max-width: 350px;
+    min-width: 160px;
+    overflow-y: auto;
+    padding: 4px;
+    list-style: none;
+}
+
+.dropdown__wrapper ul li{
+    display: list-item;
+    text-align: -webkit-match-parent;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}
+.dropdown__wrapper ul li:hover{
+    background-color: #bebebe98;
+}
+.dropdown__wrapper ul li button{
+    background: transparent;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    padding-inline-end: 8px;
+    position: relative;
+    text-align: start;
+    user-select: none;
+    width: 100%;
+}
+.dropdown__wrapper ul li button span{
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
 }
 
 

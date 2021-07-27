@@ -1,3 +1,6 @@
+
+
+
 export const setOfflineData = (offline_data)=>({
     type:"SET_OFFLINE_DATA",
     offline_data
@@ -10,8 +13,31 @@ export const setOfflineData = (offline_data)=>({
  })
 
  export const setUser = (user)=>({
-    type:"SET_OFFLINE_DATA",
+    type:"SET_USER",
     user
+ })
+
+ export const setPlaylists = (userPlaylist)=>({
+     type:"SET_PLAYLISTS",
+     userPlaylist
+ })
+
+ export const addPlaylist = (playlist)=>({
+     type:"ADD_PLAYLIST",
+     playlist
+ })
+
+ export const setRecent = (recentPlayed)=>({
+     type:"SET_RECENTS",
+     recentPlayed
+ })
+ export const setDrop = (dropdown)=>({
+     type:"SET_DROPDOWN",
+     dropdown
+ })
+ export const setCurrentSong = (currentSong)=>({
+     type:"SET_CURRENT_TRACK",
+     currentSong
  })
  
 

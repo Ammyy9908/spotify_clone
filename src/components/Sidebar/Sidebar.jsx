@@ -8,34 +8,15 @@ import SearchIcon from '../../assets/SearchIcon';
 import "./Sidebar.css"
 import {Link} from "react-router-dom"
 import { connect } from 'react-redux';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { addPlaylist } from '../../redux/actions/_appAction';
 
 
 
-function Tooltip(){
-    return(
-        <div className="logout__tooltip">
-            <div className="tooltip__content">
-                <div className="tooltip__content__wrapper">
-                    <div className="tooltip__title">
-                        <p>Create a Playlist</p>
-                    </div>
-                    <div className="tool__top__text">
-                        <p>Log in to create and share playlists.</p>
-                    </div>
-                    <div className="tooltip__actions">
-                        <button>Not now</button>
-                        <button>Login</button>
-                    </div>
-                </div>
-            </div>
-            <div className="tooltip__arrow"></div>
-        </div>
-    )
-}
-
-function PlayListButton({gradient,Icon,text}){
+function PlayListButton({gradient,Icon,text,handler,user}){
     
-    return  <div className="play_list_btn">
+    return  <div className="play_list_btn" onClick={()=>handler && user && handler()}>
          <button>
              <div className={`button__icon ${gradient && "gradient_btn"}`}>
             {Icon}
@@ -47,6 +28,39 @@ function PlayListButton({gradient,Icon,text}){
  
 
 function Sidebar(props) {
+
+    const createPlaylist = async ()=>{
+        try{
+            const r = await axios.post(`https://api.spotify.com/v1/users/${props.user.id}/playlists`,
+                {
+                    name: `New Playlist ${props.userPlaylists.length+1}`,
+                    "description": "New playlist description",
+                    "public": false
+                },
+                {
+                headers:{
+                    "Authorization":"Bearer "+Cookies.get("SPOTIFY_TOKEN")
+                }
+            
+            });
+
+            return r.data;
+        }
+        catch(e){
+            if(e.response && e.response.data){
+                return e.response.data
+            }
+        }
+    }
+
+    const handlePlayListCreate = ()=>{
+        createPlaylist().then((response)=>{
+            console.log(response)
+            props.addPlaylist(response);
+        }).catch((e)=>{
+            console.error(e.message);
+        })
+    }
     return (
         <div className="sidebar">
             <div className="sidebar__container">
@@ -63,8 +77,25 @@ function Sidebar(props) {
                 <div className="playlists">
                     <div className="playlist__container">
                     
-                            <PlayListButton text="Create a Playlist" Icon={<PlusIcon/>} gradient={false}/>
-                            <PlayListButton text="Liked Songs" Icon={<HeartIcon/>} gradient={true}/>
+                            <PlayListButton text="Create a Playlist" Icon={<PlusIcon/>} gradient={false} handler={handlePlayListCreate} user={props.user}/>
+                            <PlayListButton text="Liked Songs" Icon={<HeartIcon/>} gradient={true} handler={null}/>
+
+                            <div className="divider">
+                                <hr />
+                            </div>
+
+                            {props.userPlaylists && 
+                            <ul className="user__playlists">
+                               
+                                   
+                                    {
+                                        props.userPlaylists.map((playlist,i)=>{
+                                            return <li><div> <Link to={`/playlist/${playlist.id}`}><span>{playlist.name}</span></Link></div></li>
+                                        })
+                                    }
+                                   
+                                
+                            </ul>}
                     </div>
                 </div>
             </div>
@@ -74,7 +105,14 @@ function Sidebar(props) {
 
 
 const mapStateToProps = (state)=>({
-    activePage:state.appReducer.activePage
+    activePage:state.appReducer.activePage,
+    userPlaylists:state.appReducer.userPlaylist,
+    user:state.appReducer.user
+
 })
 
-export default connect(mapStateToProps,null)(Sidebar)
+const mapDispatchToProps = (dispatch)=>({
+    addPlaylist:(playlist)=>dispatch(addPlaylist(playlist))
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Sidebar)

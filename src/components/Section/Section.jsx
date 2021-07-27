@@ -54,7 +54,8 @@ function Section({text,items}) {
                 
                 {
                     items.slice(0,6).map((item,i)=>{
-                        return <SectionCard key={i} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." || item.album_type==="album" && item.artists.map((artist)=><a href="#">{artist.name}</a>) || item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url}/>
+                        
+                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." || item.album_type==="album" && item.artists.map((artist)=><a href="#">{artist.name}</a>) || item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url}/>
                     })
                 }
            </div>

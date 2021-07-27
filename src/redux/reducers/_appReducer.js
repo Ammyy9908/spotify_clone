@@ -5,7 +5,12 @@ const intialState = {
     activePage:"home",
     categories:null,
     recommendations:null,
-    accessToken:null
+    accessToken:null,
+    currentSong:null,
+    dropdown:false,
+    userPlaylist:null,
+    recentPlayed:null
+
  }
  
  export default function AppReducer(state=intialState,action){
@@ -15,6 +20,39 @@ const intialState = {
              ...state,
              offline_data:action.offline_data
           }
+       }
+
+       case "SET_RECENTS":{
+        return{
+           ...state,
+           recentPlayed:action.recentPlayed
+        }
+     }
+       case "SET_PLAYLISTS":{
+           return{
+               ...state,
+               userPlaylist:action.userPlaylist
+           }
+       }
+
+       case "ADD_PLAYLIST":{
+        return{
+            ...state,
+            userPlaylist:[action.playlist,...state.userPlaylist]
+        }
+    }
+
+       case "SET_DROPDOWN":{
+        return{
+           ...state,
+           dropdown:action.dropdown
+        }
+     }
+       case "SET_CURRENT_TRACK":{
+        return{
+            ...state,
+            currentSong:action.currentSong
+        }
        }
 
        case "SET_RECOMENDATION":{

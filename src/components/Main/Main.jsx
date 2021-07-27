@@ -4,20 +4,79 @@ import Section from '../Section/Section'
 import "./Main.css"
 import genres from "../../data/genres"
 import PlayIcon from '../../assets/PlayIcon'
+import MoreIcon from "../../assets/MoreIcon"
+import ArrowIcon from '../../assets/ArrowIcon'
+import { setCurrentSong, setDrop, setPlaylists, setRecommendation, setUser } from '../../redux/actions/_appAction'
+import { useHistory } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import axios from 'axios'
+import analyze from "rgbaster";
+import HeartIcon from '../../assets/HeartIcon'
+import Track from '../Track/Track'
 
-function AppBar({isGradient}){
-   return  <div className="app_bar" style={{backgroundColor:isGradient && "rgb(76, 79, 248)"}}>
+
+
+function AppBar({activePage,isGradient,user,setDrop,dropdown,setUser,setRecommendation,setCurrentSong,setPlaylists,color}){
+
+
+    const history = useHistory();
+    const handleLogout = ()=>{
+        Cookies.remove("SPOTIFY_TOKEN");
+        setUser(null);
+        setRecommendation(null);
+        setCurrentSong(null);
+        setPlaylists(null);
+        history.push("/");
+
+    }
+
+
+    const handleGoBack  = ()=>{
+        history.goBack();
+    }
+
+    const handleGoNext = ()=>{
+        history.goForward();
+    }
+   return  <div className="app_bar" style={{backgroundColor:activePage!=="playlist" && isGradient  ? "rgb(76, 79, 248,.52)":color}}>
         <div className="app__bar__container">
         <div className="nav__buttons">
-            <a href="#">
+            <a href="#" onClick={handleGoBack}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="16 4 7 12 16 20" fill="none" stroke="#ccc"></polyline></svg>
             </a>
-            <a href="#">
+            <a href="#" onClick={handleGoNext}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="8 4 17 12 8 20" fill="none" stroke="#ccc"></polyline></svg>
             </a>
         </div>
 
-        <a href="http://localhost:5000/login" className="login__button__nav">LOG IN</a>
+        {!user && <a href="http://localhost:5000/login" className="login__button__nav">LOG IN</a>}
+        {
+            user &&
+            <div className="nav__buttons">
+               {user.product==="open" &&<button className="upgrade__btn">
+                    Upgrade
+                </button>}
+            <div className="auth_drop" onClick={()=>setDrop(!dropdown)}>
+                <div className="auth__avatar">
+                    <img src={user.images[0].url} alt="" className="avatar__image__nav"/>
+                </div>
+                <span className="auth_name">{user.display_name}</span>
+                
+                <ArrowIcon className="arrow__icon"/>
+               {dropdown && <div className="app__dropdown">
+                   <div className="context-menu">
+                       <div className="dropdown__wrapper">
+                       <ul>
+                       <li><button className="account__btn"><span>Account</span></button></li>
+                       <li><button className="profile__btn"><span>Profile</span></button></li>
+                       <li><button className="logout__btn" onClick={handleLogout}><span>Logout</span></button></li>
+                     </ul>
+                       </div>
+                   </div>
+               </div>}
+            </div>
+            </div>
+        }
         </div>
     </div>
 }
@@ -64,7 +123,7 @@ function Recommendation({recommendations}){
 
             <div className="recommendation__section">
                 <div className="recommendation__header">
-                    <h2>Good afternoon</h2>
+                    <h2>Recent Played</h2>
                 </div>
                 <div className="recommendation__grid">
                    {/* <RecommendationCard/>
@@ -72,9 +131,10 @@ function Recommendation({recommendations}){
                    
 
                    {
-                        recommendations && recommendations.content.items.slice(0,6).map((recommendation,i)=>{
-                            return <RecommendationCard image={recommendation.images[0].url} name={recommendation.name} key={i}/>;
+                        recommendations && recommendations.slice(0,6).map((recommendation,i)=>{
+                            return <RecommendationCard key={i} name={recommendation.track.name} image={recommendation.track.album.images[2].url}/>
                         })
+                       
                    }
                     
                 </div>
@@ -82,9 +142,19 @@ function Recommendation({recommendations}){
         </div>
     </div>
 }
+
+
+function MelodyIcon(){
+    return <svg width="80" height="81" viewBox="0 0 80 81" xmlns="http://www.w3.org/2000/svg"><title>Playlist Icon</title><path d="M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z" fill="currentColor" fill-rule="evenodd"></path></svg>
+}
 function Main(props) {
 
     const [isGradient,setGradient] = React.useState(false);
+    const [playlist,setPlaylist] = React.useState(null);
+    const [color, setColor] = React.useState(null);
+    const [color2,setColor2] = React.useState(null);
+
+
     const handleScroll = (e)=>{
         
         if(e.target.scrollTop>50){
@@ -92,9 +162,70 @@ function Main(props) {
         }
         setGradient(false);
     }
+
+    // fetch the playlist by its id
+
+    
+    var img = playlist && playlist.images.length>0 && playlist.images[0].url;
+    if (img) {
+        const result = analyze(img); // also supports base64 encoded image strings
+        result.then((result) => {
+          setColor(result[1].color);
+          setColor2(result[0].color)
+          console.log(
+            `The dominant color is ${result[0].color} with ${result[0].count} occurrence(s)`
+          );
+
+          console.log(result[0])
+        });
+      }
+
+    React.useEffect(()=>{
+        console.log("Running");
+        const getPlayList = async ()=>{
+            try{
+                const r = await axios.get(`https://api.spotify.com/v1/playlists/${props.id}`,{
+                    headers:{
+                        "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+                    }
+                });
+                return r.data;
+            }
+    
+            catch(e){
+                if(e.response && e.response.data){
+                    return e.response.data;
+                }
+            }
+        }
+
+        props.id && getPlayList().then((playlist)=>{
+            console.log("Playlist=>",playlist);
+            setPlaylist(playlist);
+        }).catch((e)=>{
+            console.log(e);
+        })
+    },[props.id])
+
+
+     // calculate duration for playlists
+
+  let dur = 0;
+
+  playlist &&
+    playlist.tracks.items.forEach((song) => {
+      dur += song.track.duration_ms;
+    });
+
+  console.log("Total duration", dur);
+
+  let min = Math.floor((dur / 1000 / 60) % 60);
+  let hours = Math.floor((dur / 1000 / 60 / 60) << 0);
+
+
     return (
         <div className="main" onScroll={handleScroll}>
-            <AppBar isGradient={isGradient}/>
+            <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage}/>
             <div className="content__body">
                 <main className="view__container">
 
@@ -103,7 +234,7 @@ function Main(props) {
                     
                         {props.activePage === "home" &&
 
-                        <><Recommendation recommendations={props.recommendations}/>
+                        <>{props.user && <Recommendation recommendations={props.recommendations}/>}
                         <div className="home__body">
                             <div className="section__body">
                             <div className="sections contentSpacing">
@@ -149,9 +280,110 @@ function Main(props) {
                            </div>
                             </div>
                         }
+
+
+                        {
+                            props.activePage==="playlist"
+                            &&
+                            <div className="playlist__Section">
+                                    <div className="contentSpacing hero__wrapper">
+                                        <div className="hero__background" style={{backgroundColor:color && color}}>
+                                            </div>
+                                            <div className="hero__content__back"></div>
+                                                <div className="playlist__thumb">
+                                                    <div className="playlist__thumb__main">
+                                                        <div>
+                                                            <div>
+                                                                {playlist && playlist.images.length<1 ? <div className="icon">
+                                                                <MelodyIcon/>
+                                                                </div>:
+                                                                <img src={playlist && playlist.images[0].url} alt="playlist__cover"/>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="playlist__info">
+                                                    <h2>Playlist</h2>
+                                                    <span>
+                                                        <button>
+                                                            <span>
+                                                                <h1>{playlist && playlist.name}</h1>
+                                                            </span>
+                                                        </button>
+                                                    </span>
+                                                    <h2 className="desc__header">
+                                                        <button><p>{playlist && playlist.description}</p></button>
+                                                    </h2>
+                                                    <div className="playlist__meta__info">
+                                                        <div><a href="#">{playlist && playlist.owner.display_name}</a></div>
+                                                        <div className="playlist__likes">{playlist && playlist.followers.total} likes</div>
+                                                        <div className="playlist__tracks__count">75 songs,{hours} hr {min} min</div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            
+                                        
+                                    </div>
+
+                                    <div className="playlist__tracks">
+                                        <div className="track__background" style={{backgroundColor:color2 && color2}}></div>
+                                       
+                                        <div className="track__header contentSpacing">
+                                            <div className="track__header__wrapper">
+                                                <button><PlayIcon/></button>
+                                                <button><HeartIcon/></button>
+                                                <button><MoreIcon/></button>
+                                            </div>
+                                        </div>
+
+                                        <div className="tracks__container contentSpacing">
+                                                <div className="tracklist">
+                                                    <div className="tracklist__header">
+                                                        <div className="tracklist__header__content">
+                                                            <div className="hash">#</div>
+                                                            <div className="track__title__header">
+                                                                <div>
+                                                                    <span>Title</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="track_album__header">
+                                                                <div>
+                                                                    <span>Album</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="track_date__header">
+                                                                <div>
+                                                                    <span>Date Added</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="track_duration__header">
+                                                                <div>
+                                                                    <span>
+                                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.999 3H6.999V7V8H7.999H9.999V7H7.999V3ZM7.5 0C3.358 0 0 3.358 0 7.5C0 11.642 3.358 15 7.5 15C11.642 15 15 11.642 15 7.5C15 3.358 11.642 0 7.5 0ZM7.5 14C3.916 14 1 11.084 1 7.5C1 3.916 3.916 1 7.5 1C11.084 1 14 3.916 14 7.5C14 11.084 11.084 14 7.5 14Z" fill="currentColor"></path></svg>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tracklist__body">
+                                                        <div className="tracklist__body__container">
+                                                            <Track/>
+                                                            <Track/>
+                                                            <Track/>
+                                                            <Track/>
+                                                            <Track/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        }
                   
                 </main>
             </div>
+           
         </div>
     )
 }
@@ -160,6 +392,15 @@ const mapStateToProps = (state)=>({
     activePage:state.appReducer.activePage,
     categories:state.appReducer.categories,
     recommendations:state.appReducer.recommendations,
-    user:state.appReducer.user
+    user:state.appReducer.user,
+    dropdown:state.appReducer.dropdown,
+    
 })
-export default connect(mapStateToProps,null)(Main)
+const mapDispatchToProps = (dispatch)=>({
+    setDrop:(dropdown)=>dispatch(setDrop(dropdown)),
+    setUser:(user)=>dispatch(setUser(user)),
+    setRecommendation:(recommendations)=>dispatch(setRecommendation(recommendations)),
+    setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
+    setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist))
+})
+export default connect(mapStateToProps,mapDispatchToProps)(Main)
