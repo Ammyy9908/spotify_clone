@@ -3,50 +3,77 @@ import Home from './pages/Home/Home';
 import React from "react";
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setOfflineData, setRecommendation, setToken } from './redux/actions/_appAction';
+import { setCurrentSong, setOfflineData, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 import Search from './pages/Search/Search';
-
-
+import {getTokenFromResponse} from "./spotify";
+import Cookies from "js-cookie";
+import Playlist from './pages/Playlist/Playlist';
 function App(props) {
- 
+const [accessToken,setToken] = React.useState(null);
 
-  console.log(props);
+
+
+  const token= !Cookies.get("SPOTIFY_TOKEN") && getTokenFromResponse();
+ 
+  console.log("The Auth Token is ",token.access_token);
+  token.access_token && Cookies.set("SPOTIFY_TOKEN",token.access_token);
+
+ 
 
   React.useEffect(()=>{
 
 
+    //User Recent Played Tracks
     const getRecommendation = async ()=>{
       try{
-        const r = await axios.get(`https://api.spotify.com/v1/views/personalized-recommendations?timestamp=2021-07-26T14%3A55%3A40.765Z&platform=web&content_limit=10&limit=20&types=album%2Cplaylist%2Cartist%2Cshow%2Cstation%2Cepisode&image_style=gradient_overlay&country=IN&locale=en`,{headers:{
-          "Authorization":"Bearer BQBpYnLphHkdrJvmt0lt-11sKk2iytgf7hJKhQyvH-rLhfem9nr61OU0Wcvph7nHUMWlE0sLSQQH8QGYOdm51o9IDGxq_DRsV7_Kckoc47BZTXfpmFG9F6ru0RIkljytEmvTM0VJicHl3juYjhW3-uPvwYfNOEh7YyfoOVdlF05WmLXMDo9Vt1SwFDGDWts2ExOr5Bmj_OdFgutuZqduEGtcWy2plMxX13lmd5_yEnhRVy2ufEq0cv00alPbHhqzYPit7fu61bUPMNugtGvhSiVrWR_yhIXH-bFOAbN1SfhkS5GVuperN9nvxO0G"
+        const r = await axios.get(`https://api.spotify.com/v1/me/player/recently-played`,{headers:{
+          "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
         }});
 
         return r.data;
       }
       catch(e){
-        if(e.response && e.response.data){
-          return e.response.data;
-        }
+        console.log(e)
       }
     }
 
-    getRecommendation().then((data)=>{
-      console.log("Recommended data",data);
-      props.setRecommendation(data.content.items[0])
+    Cookies.get("SPOTIFY_TOKEN") && getRecommendation().then((data)=>{
+      
+      props.setRecommendation(data.items)
     }).catch((e)=>console.error(e));
 
 
+
+
+//Current User Profile
+    async function getMe(){
+      try{
+        const r = await axios.get(`https://api.spotify.com/v1/me`,{headers:{
+          "Authorization":"Bearer "+Cookies.get("SPOTIFY_TOKEN")
+        }})
+        props.setUser(r.data);
+
+
+      }
+      catch(e){
+        console.log(e.response.data);
+      }
+    }
+
+    getMe();
+
+
+  
+//Use to get open api access token from the backend
     const getAccessToken = async ()=>{
-      const r = await axios.get('http://localhost:5000/getToken',{headers: { 
-        'x-apikey': '59a7ad19f5a9fa0808f11931',
-        'Access-Control-Allow-Origin' : 'http://localhost:3000/',
-        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      }});
+      const r = await axios.get('http://localhost:5000/getToken');
       return r.data;
     } 
 
 
+
+    //this request the spotify open data using above requested token from the above request
     const getSpotifyData = async (token)=>{
       
       try{
@@ -69,16 +96,83 @@ function App(props) {
     }
 
 
+    //function to get current playing track of the user
+
+    const getCurrentTrack = async ()=>{
+      try{
+        const r = await axios.get(`https://api.spotify.com/v1/me/player/currently-playing`,{
+          headers:{
+            "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+          }
+        });
+
+        return r.data;
+      }
+      catch(e){
+        if(e.response && e.response.data){
+          return e.response.data;
+        }
+      }
+    }
+
+
+    // method for retrieving user playlists
+
+
+    const getPlaylists = async ()=>{
+        try{
+          const r = await axios.get(`https://api.spotify.com/v1/me/playlists`,{
+            headers:{
+              "Authorization":"Bearer "+Cookies.get("SPOTIFY_TOKEN")
+            }
+          });
+
+          return r.data;
+        }
+        catch(e){
+          if(e.response && e.response.data){
+            return e.response.data;
+          }
+        }
+    }
+
+
+
+
+   
+
+  
+
+
+//Calling getAccess Token to request a token then get spotify data
+
     getAccessToken().then((tokenData)=>{
-      console.log("token data",tokenData);
       props.setToken(tokenData.token);
       
 
       getSpotifyData(tokenData.token).then((data)=>{
-        console.log("data ",data);
         props.setOfflineData(data.content);
       });
     })
+
+    Cookies.get("SPOTIFY_TOKEN") && getCurrentTrack().then((currentTrack)=>{
+      
+      props.setCurrentSong(currentTrack);
+    }).catch(e=>console.error(e.messagge));
+
+
+    Cookies.get("SPOTIFY_TOKEN") && getPlaylists().then((playlists)=>{
+      
+      props.setPlaylists(playlists.items);
+    }).catch((e)=>console.error(e.messagge));
+
+  
+
+
+
+
+
+
     
   },[])
   return (
@@ -94,6 +188,15 @@ function App(props) {
   
     return <Search />
 }}  />
+
+        <Route
+            path="/playlist/:id"
+            render={(props) => {
+              const id = props.match.params.id;
+              return <Playlist id={id && id} />;
+            }}
+            exact
+          />
 
    
    
@@ -114,5 +217,8 @@ const mapDispatchToProps = (dispatch)=>({
   setOfflineData :(offline_data)=>dispatch(setOfflineData(offline_data)),
   setToken:(token)=>dispatch(setToken(token)),
   setRecommendation:(recommendations)=>dispatch(setRecommendation(recommendations)),
+  setUser:(user)=>dispatch(setUser(user)),
+  setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
+  setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist))
 })
 export default connect(null,mapDispatchToProps)(App);
