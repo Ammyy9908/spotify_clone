@@ -13,10 +13,12 @@ import axios from 'axios'
 import analyze from "rgbaster";
 import HeartIcon from '../../assets/HeartIcon'
 import Track from '../Track/Track'
+import PencilIcon from '../../assets/PencilIcon'
+import Toast from '../Toast/Toast'
 
 
 
-function AppBar({activePage,isGradient,user,setDrop,dropdown,setUser,setRecommendation,setCurrentSong,setPlaylists,color}){
+function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUser,setRecommendation,setCurrentSong,setPlaylists,color}){
 
 
     const history = useHistory();
@@ -38,18 +40,33 @@ function AppBar({activePage,isGradient,user,setDrop,dropdown,setUser,setRecommen
     const handleGoNext = ()=>{
         history.goForward();
     }
+
+
+    const moveProfile = ()=>{
+        history.push(`/user/${user.id}`);
+    }
+ // eslint-disable-next-line
+    console.log("Gradient=>",isGradient);
    return  <div className="app_bar" style={{backgroundColor:activePage!=="playlist" && isGradient  ? "rgb(76, 79, 248,.52)":color}}>
         <div className="app__bar__container">
         <div className="nav__buttons">
-            <a href="#" onClick={handleGoBack}>
+            <a href="/" onClick={handleGoBack}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="16 4 7 12 16 20" fill="none" stroke="#ccc"></polyline></svg>
             </a>
-            <a href="#" onClick={handleGoNext}>
+            {!activePage==="playlist" && <a href="/" onClick={handleGoNext}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="8 4 17 12 8 20" fill="none" stroke="#ccc"></polyline></svg>
-            </a>
+            </a>}
+
+            {activePage==="playlist" && <div className="track__navbar">
+                <div className="track__header__content">
+                <button style={{opacity:trackNav && "1"}}><PlayIcon/></button>
+                <span style={{opacity:trackNav && "1"}}>{name}</span>
+                </div>
+            </div>}
         </div>
 
-        {!user && <a href="http://localhost:5000/login" className="login__button__nav">LOG IN</a>}
+
+        {!user && <a href="https://spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
         {
             user &&
             <div className="nav__buttons">
@@ -68,7 +85,7 @@ function AppBar({activePage,isGradient,user,setDrop,dropdown,setUser,setRecommen
                        <div className="dropdown__wrapper">
                        <ul>
                        <li><button className="account__btn"><span>Account</span></button></li>
-                       <li><button className="profile__btn"><span>Profile</span></button></li>
+                       <li><button className="profile__btn" onClick={moveProfile}><span>Profile</span></button></li>
                        <li><button className="logout__btn" onClick={handleLogout}><span>Logout</span></button></li>
                      </ul>
                        </div>
@@ -92,7 +109,7 @@ function RecommendationCard({image,name}){
                </div>
            </div>
            <div className="rcard__content">
-            <a href="#"><p>
+            <a href="/"><p>
             {name}</p></a>
             <div className="rcard__button">
                 <button className="play_btn">  <PlayIcon/></button>
@@ -107,7 +124,7 @@ function RecommendationCard({image,name}){
 
 function BrowseCard({color,image,title}){
     return(
-        <a href="#" className="browse__card" style={{backgroundColor:color}}>
+        <a href="/" className="browse__card" style={{backgroundColor:color}}>
             <div className="browse__card__wrapper">
                 <img src={image} alt="" className="browse__card__image" />
                 <h3 className="browse__card__text">{title}</h3>
@@ -153,15 +170,34 @@ function Main(props) {
     const [playlist,setPlaylist] = React.useState(null);
     const [color, setColor] = React.useState(null);
     const [color2,setColor2] = React.useState(null);
+    const [blackHeader,setHeader] = React.useState(false);
+    const [trackNav,setTrackNav] = React.useState(false);
+    const [user,setUser] = React.useState(null);
 
 
     const handleScroll = (e)=>{
-        
-        if(e.target.scrollTop>50){
-            return setGradient(true);
+            console.log(e.target.scrollTop);
+        if(e.target.scrollTop>25){
+            
+            setGradient(true);
         }
-        setGradient(false);
+        if(e.target.scrollTop>233){
+            setTrackNav(true)
+        }
+        
+        if(e.target.scrollTop>455){
+            
+            setHeader(true);
+        }
+        else{
+            setTrackNav(false);
+            setGradient(false);
+            setHeader(false);
+        }
+        
     }
+
+    console.log("Header value",blackHeader);
 
     // fetch the playlist by its id
 
@@ -208,6 +244,40 @@ function Main(props) {
     },[props.id])
 
 
+
+    
+
+    React.useEffect(()=>{
+//Fecth a User profile
+
+console.log("User id",props.uid);
+
+const fetchUser = async ()=>{
+    try{
+        const r = await axios.get(`https://api.spotify.com/v1/users/${props.uid}`,{
+            headers:{
+                "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+            }
+        });
+        return r.data;
+    }
+    catch(e){
+        if(e.response && e.response.data){
+            return e.response.data;
+        }
+    }
+}
+props.uid && fetchUser().then((user)=>{
+    console.log(`user=>`,user);
+    setUser(user);
+}).catch((e)=>console.error(e));
+
+    },[props.uid]);
+
+
+    
+
+
      // calculate duration for playlists
 
   let dur = 0;
@@ -224,17 +294,18 @@ function Main(props) {
 
 
     return (
-        <div className="main" onScroll={handleScroll}>
-            <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage}/>
+        <div className="main" onScroll={props.activePage==="home" || props.activePage==="playlist" ?handleScroll:null}>
+            <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage} trackNav={trackNav} name={playlist && playlist.name}/>
             <div className="content__body">
                 <main className="view__container">
+                <Toast/>
 
 
 
                     
                         {props.activePage === "home" &&
 
-                        <>{props.user && <Recommendation recommendations={props.recommendations}/>}
+                        <>{props.user &&  <Recommendation recommendations={props.recommendations}/>}
                         <div className="home__body">
                             <div className="section__body">
                             <div className="sections contentSpacing">
@@ -316,7 +387,7 @@ function Main(props) {
                                                         <button><p>{playlist && playlist.description}</p></button>
                                                     </h2>
                                                     <div className="playlist__meta__info">
-                                                        <div><a href="#">{playlist && playlist.owner.display_name}</a></div>
+                                                        <div><a href="/">{playlist && playlist.owner.display_name}</a></div>
                                                         <div className="playlist__likes">{playlist && playlist.followers.total} likes</div>
                                                         <div className="playlist__tracks__count">75 songs,{hours} hr {min} min</div>
                                                         
@@ -339,7 +410,7 @@ function Main(props) {
 
                                         <div className="tracks__container contentSpacing">
                                                 <div className="tracklist">
-                                                    <div className="tracklist__header">
+                                                    <div className={`tracklist__header ${blackHeader && "black__header"}`}>
                                                         <div className="tracklist__header__content">
                                                             <div className="hash">#</div>
                                                             <div className="track__title__header">
@@ -368,11 +439,13 @@ function Main(props) {
                                                     </div>
                                                     <div className="tracklist__body">
                                                         <div className="tracklist__body__container">
-                                                            <Track/>
-                                                            <Track/>
-                                                            <Track/>
-                                                            <Track/>
-                                                            <Track/>
+                                                            
+                                                            
+                                                            {
+                                                                playlist && playlist.tracks.items.map((item,i)=>{
+                                                                    return <Track name={item.track.name} artists={item.track.artists} cover={item.track.album.images[2].url} date={item.added_at} index={i}/>
+                                                                })
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -380,6 +453,60 @@ function Main(props) {
                                     </div>
                             </div>
                         }
+
+
+
+                        {
+                            props.activePage==="profile" &&
+                            <div className="profile__section">
+                                    <div className="profile__main contentSpacing">
+                                        <div className="profile__banner">
+                                            
+                                        </div>
+                                        <div className="banner__background"></div>
+                                        <div className="profile__cover">
+                                            <div className="user__image__wrapper">
+                                                <div className="user__cover__image">
+                                                    <img src={user && user.images[0].url} alt="" />
+                                                </div>
+                                                <div className="profile__update__wrapper">
+                                                    <div className="profile__update__form">
+                                                        <button>
+                                                            <div className="button__icon_2">
+                                                                <PencilIcon/>
+                                                                <span>Choose photo</span>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="user__info__profile">
+                                            <h2>Profile</h2>
+                                            <span className="username">
+                                                <button>
+                                                    <span>
+                                                        <h1>{user && user.display_name}</h1>
+                                                    </span>
+                                                </button>
+                                            </span>
+                                            <div className="user__meta__info">
+                                                <span>2 Public Playlist</span>
+                                                <span><a href="/">{user && user.followers.total} Followers</a></span>
+                                                {/* <span>
+                                                    <a href="#">42 Followings</a>
+                                                </span> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        }
+
+
+
+
+
                   
                 </main>
             </div>

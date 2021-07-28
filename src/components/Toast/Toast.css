@@ -1,0 +1,19 @@
+.toast{
+    padding: 16px 24px 16px 24px;
+    background-color: rgba(40, 149, 54, 0.822);
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: -50px;
+    left: 50%;
+    z-index: 999;
+    border-radius: 500px;
+    color: #fff;
+    font-weight: 700;
+    transition: all .2s ease-in-out;
+    justify-content: center;
+}
+.toast__enable{
+    bottom: 135px;
+}

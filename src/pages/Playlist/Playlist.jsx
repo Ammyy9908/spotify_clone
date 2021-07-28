@@ -10,7 +10,9 @@ function Playlist(props) {
 
     React.useEffect(()=>{
         props.setActivePage("playlist");
-    },[])
+    },
+    // eslint-disable-next-line
+    [])
     return (
         <div className="home__container">
             <Sidebar/>

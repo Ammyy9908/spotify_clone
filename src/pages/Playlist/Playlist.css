@@ -279,6 +279,10 @@ cursor: pointer;
     position: sticky;
     top: 60px;
     z-index: 2;
+    transition: all .3s ease-in-out;
+}
+.black__header{
+    background-color: #000000 !important;
 }
 .tracklist__header__content{
     grid-template-columns: [index] 16px [first] 6fr [var1] 4fr [var2] 3fr [last] minmax(120px,1fr);

@@ -1,31 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Main from '../../components/Main/Main';
+import Player from '../../components/Player/Player';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import { setActivePage, setCategories } from '../../redux/actions/_appAction';
-import "./Search.css"
+import { setActivePage } from '../../redux/actions/_appAction';
+import "./Profile.css"
 
-function Search(props) {
+function Profile(props) {
     React.useEffect(()=>{
-        props.setActivePage("search");     
+        props.setActivePage("profile");
     },
     // eslint-disable-next-line
-    []);
+    [])
     return (
         <div className="home__container">
             <Sidebar/>
-            <Main/>
+            <Main uid={props.uid}/>
+            <Player/>
         </div>
     )
 }
 
-const mapStateToProps = (state)=>({
-    authToken:state.appReducer.authToken,
 
-})
 const mapDispatchToProps = (dispatch)=>({
     setActivePage:(activePage)=>dispatch(setActivePage(activePage)),
-    setCategories:(categories)=>dispatch(setCategories(categories))
-    
 })
-export default connect(mapStateToProps,mapDispatchToProps)(Search)
+
+const mapStateToProps = (state)=>({
+    user:state.appReducer.user
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Profile);

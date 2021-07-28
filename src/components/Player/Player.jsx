@@ -7,19 +7,83 @@ import NextIcon from "../../assets/NextIcon";
 import PlayIcon from "../../assets/PlayIcon";
 import "./Player.css"
 import { connect } from "react-redux";
+import PauseIcon from "../../assets/PauseIcon";
+import { setError } from "../../redux/actions/_appAction";
 
 function Player(props) {
     console.log("Current song meta is",props.currentSong);
+     // eslint-disable-next-line
   const [volume, setVolume] = React.useState(0);
-  const [isPlay, setPlay] = React.useState(false);
 
   
   const token = Cookies.get("SPOTIFY_TOKEN");
 
+
+
+  //handle pause
+
+  const setPause = async ()=>{
+      try{
+          const r = await axios.put(`https://api.spotify.com/v1/me/player/pause`,{},{
+              headers:{
+                  "Authorization":`Bearer ${token}`
+              }
+          });
+          return r.data;
+      }
+      catch(e){
+          if(e.response && e.response.data){
+              return e.response.data;
+          }
+      }
+  }
+
+  const setPlay = async ()=>{
+    try{
+        const r = await axios.put(`https://api.spotify.com/v1/me/player/play`,{},{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        }
+        );
+        return r.data;
+    }
+    catch(e){
+        if(e.response && e.response.data){
+            return e.response.data;
+        }
+    }
+}
+
+
+  const handlePause = ()=>{
+    setPause().then((pauseResponse)=>{
+            const {error} = pauseResponse;
+            if(error){
+                console.log(error.message);
+                props.setError(error.message);
+            }
+            
+    }).catch((e)=>{
+        console.log("Error",e);
+    });
+  }
+
+  const handlePlay = ()=>{
+    setPlay().then((playResponse)=>{
+        const {error} = playResponse;
+        if(error){
+            console.log(error.message);
+            props.setError(error.message);
+        }
+}).catch((e)=>{
+    console.log("Error",e);
+});
+  }
   return (
     <>
-      {props.currentSong && props.currentSong.is_playing && 
-        <div className={`player ${!props.currentSong.is_playing && "player__disable"}`}>
+      {props.currentSong && props.currentSong.item   &&
+        <div className={`player ${!props.currentSong && "player__disable"}`}>
           <div className="player__wrapper">
             <div className="player__left">
               <div className="song__info">
@@ -46,8 +110,9 @@ function Player(props) {
                 </button>
                 <button
                   className="play__button"
+                  onClick={props.currentSong.is_playing?handlePause:handlePlay}
                 >
-                 <PlayIcon/>
+                { props.currentSong.is_playing?<PauseIcon/>:<PlayIcon/>}
                 </button>
 
                <button className="next_btn">
@@ -88,7 +153,7 @@ function Player(props) {
                 <div className="player__song__volume__range">
                   <div
                     className="volume__range"
-                    style={{ width: "20" + "%" }}
+                    style={{ width: "20%" }}
                     id="volume__range"
                   >
                     <span className="thumb" id="thumb"></span>
@@ -118,4 +183,8 @@ function Player(props) {
 const mapStateToProps = (state)=>({
     currentSong:state.appReducer.currentSong
 })
-export default connect(mapStateToProps,null)(Player);
+
+const mapDispatchToProps = (dispatch)=>({
+    setError:(error)=>dispatch(setError(error))
+})
+export default connect(mapStateToProps,mapDispatchToProps)(Player);

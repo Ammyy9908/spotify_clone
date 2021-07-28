@@ -31,6 +31,10 @@ export const setOfflineData = (offline_data)=>({
      type:"SET_RECENTS",
      recentPlayed
  })
+ export const setError = (error)=>({
+     type:"SET_ERROR",
+     error
+ })
  export const setDrop = (dropdown)=>({
      type:"SET_DROPDOWN",
      dropdown
