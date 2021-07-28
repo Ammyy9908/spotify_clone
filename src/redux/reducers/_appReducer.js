@@ -9,12 +9,20 @@ const intialState = {
     currentSong:null,
     dropdown:false,
     userPlaylist:null,
-    recentPlayed:null
+    recentPlayed:null,
+    error:null
 
  }
  
  export default function AppReducer(state=intialState,action){
     switch(action.type){
+        case "SET_ERROR":{
+            return{
+               ...state,
+               error:action.error
+            }
+         }
+
        case "SET_OFFLINE_DATA":{
           return{
              ...state,

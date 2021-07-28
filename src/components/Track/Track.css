@@ -3,6 +3,7 @@
     border: 0;
     padding: 0;
     margin: 0;
+   
 }
 .track__wrapper{
     grid-template-columns: [index] 16px [first] 6fr [var1] 4fr [var2] 3fr [last] minmax(120px,1fr);
@@ -13,4 +14,171 @@
     padding: 0 16px;
     grid-gap:16px;
     display: grid;
+}
+.track__number{
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+    position: relative;
+}
+.track__number >div{
+    color: #b3b3b3;
+    height: 16px;
+    min-height: 16px;
+    min-width: 16px;
+    position: relative;
+    width: 16px;
+}
+.track__number >div >span{
+    font-variant: tabulur-nums;
+    position: absolute;
+    right: .2em;
+    top: -4px;
+    z-index: 22;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 24px;
+    text-transform: none;
+}
+.track__number >div >button{
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+}
+.track__number >div >button svg{
+    fill: currentColor;
+    width: 32px;
+    height: 32px;
+}
+.track__info{
+    display: flex;
+    align-items: center;
+    justify-self: start;
+}
+
+.track__info >img{
+    background-color: #282828;
+    flex-shrink: 0;
+    margin-right: 16px;
+    width: 40px;
+    height: 40px;
+}
+.track__metadata{
+    padding-right: 8px;
+    display: grid;
+    grid-template:
+        "title title"
+        "badges subtitle"/auto 1fr;
+        column-gap: 8px;
+}
+.track__name{
+    grid-area:title;
+    color: #fff;
+    justify-self: start;
+    white-space: unset;
+    word-break: break-all;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 24px;
+    text-transform: none;
+}
+.track__artists{
+    color: rgb(179, 179, 179);
+    grid-area: subtitle;
+    grid-column-start: badges;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+}
+.track__artists a{
+    color: inherit;
+    text-decoration: none;
+    touch-action: manipulation;
+}
+
+.track_album{
+    display: flex;
+    align-items: center;
+    justify-self: start;
+}
+.track_album a{
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: normal;
+}
+.track__timestamp{
+    display: flex;
+    align-items: center;
+    justify-self: start;
+}
+.track__timestamp span{
+    color: rgb(179, 179, 179);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+}
+.track__duration{
+    display: flex;
+    align-items: center;
+    grid-column: last;
+    vertical-align: baseline;
+}
+
+.track__like__btn{
+    margin-right: 16px;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    color: rgba(255,255,255,.7);
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+.track__like__btn >svg{
+    fill: currentColor;
+    width: 16px;
+    height: 16px;
+    stroke: currentColor 1px;
+}
+
+.track__duration{
+    color: rgb(179, 179, 179);
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    font-variant-numeric: tabular-nums;
+    justify-content: flex-end;
+    width: 4ch;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+}
+.track__more{
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,.6);
+    padding: 0;
+    margin-left: 16px;
+}
+.track__more svg{
+    fill: currentColor;
+    width: 16px;
+    height: 16px;
 }

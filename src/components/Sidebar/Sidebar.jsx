@@ -65,7 +65,7 @@ function Sidebar(props) {
         <div className="sidebar">
             <div className="sidebar__container">
                 <div className="logo__banner">
-                    <a href="#">
+                    <a href="/">
                         <Logo/>
                     </a>
                 </div>

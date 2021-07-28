@@ -10,7 +10,7 @@
 
 .app_bar{
     height: 60px;
-    z-index: 99;
+    z-index: 999;
     width: 100%;
     background: rgba(32, 32, 32, 0);
     position: sticky;
@@ -449,6 +449,44 @@ right: 0;
     line-height: 16px;
 }
 
+
+.track__navbar{
+    flex-grow: 1;
+    min-width: 0;
+    white-space: nowrap;
+    
+}
+.track__header__content{
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+.track__header__content button{
+    background-color: #1db954;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    outline: 0;
+    border-radius: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: transform 33ms cubic-bezier(.3,0,0,1),-webkit-transform 33ms cubic-bezier(.3,0,0,1);
+}
+.track__header__content span{
+    transition: opacity .5s;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 28px;
+    overflow: hidden;
+    padding: 0 16px;
+    text-overflow: ellipsis;
+    opacity: 0;
+}
 
 @media screen and (min-width:1024px){
     .contentSpacing{

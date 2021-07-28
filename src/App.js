@@ -9,7 +9,9 @@ import Search from './pages/Search/Search';
 import {getTokenFromResponse} from "./spotify";
 import Cookies from "js-cookie";
 import Playlist from './pages/Playlist/Playlist';
+import Profile from './pages/Profile/Profile';
 function App(props) {
+   // eslint-disable-next-line
 const [accessToken,setToken] = React.useState(null);
 
 
@@ -67,7 +69,7 @@ const [accessToken,setToken] = React.useState(null);
   
 //Use to get open api access token from the backend
     const getAccessToken = async ()=>{
-      const r = await axios.get('http://localhost:5000/getToken');
+      const r = await axios.get('https://spotifyserversumit.herokuapp.com/getToken');
       return r.data;
     } 
 
@@ -174,7 +176,9 @@ const [accessToken,setToken] = React.useState(null);
 
 
     
-  },[])
+  },
+   // eslint-disable-next-line
+  [])
   return (
     <Router>
   <div>
@@ -196,6 +200,15 @@ const [accessToken,setToken] = React.useState(null);
               return <Playlist id={id && id} />;
             }}
             exact
+          />
+          <Route
+           exact
+            path="/user/:uid"
+            render={(props) => {
+              const uid = props.match.params.uid;
+              return <Profile uid={uid && uid} />;
+            }}
+           
           />
 
    

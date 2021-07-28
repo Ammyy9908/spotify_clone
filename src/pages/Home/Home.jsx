@@ -5,12 +5,16 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { setAccessToken, setActivePage, setDrop, setToken } from '../../redux/actions/_appAction';
 import "./Home.css"
 import {useLocation,useHistory} from "react-router-dom";
+// eslint-disable-next-line
 import Cookies  from 'js-cookie';
+// eslint-disable-next-line
 import axios from 'axios';
 import Player from '../../components/Player/Player';
 
 function Home(props) {
+    // eslint-disable-next-line
     const {search} = useLocation();
+    // eslint-disable-next-line
     const history = useHistory();
     
     
@@ -21,7 +25,9 @@ function Home(props) {
         props.setActivePage("home");   
         
 
-    },[]);
+    },
+    // eslint-disable-next-line
+    []);
 
 
     const handleCancel = (e)=>{
@@ -35,6 +41,7 @@ function Home(props) {
         <div className="home__container" onClick={handleCancel}>
             <Sidebar/>
             <Main/>
+           
             <Player/>
         </div>
     )
