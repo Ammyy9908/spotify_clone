@@ -10,6 +10,7 @@ import {getTokenFromResponse} from "./spotify";
 import Cookies from "js-cookie";
 import Playlist from './pages/Playlist/Playlist';
 import Profile from './pages/Profile/Profile';
+import Library from './pages/Library/Library';
 function App(props) {
    // eslint-disable-next-line
 const [accessToken,setToken] = React.useState(null);
@@ -188,18 +189,19 @@ const [accessToken,setToken] = React.useState(null);
   <Route exact path="/">
     <Home/>
     </Route>
-    <Route path="/search" render={(props) => {
+    <Route exact path="/search" render={(props) => {
   
     return <Search />
 }}  />
 
         <Route
+        exact
             path="/playlist/:id"
             render={(props) => {
               const id = props.match.params.id;
               return <Playlist id={id && id} />;
             }}
-            exact
+            
           />
           <Route
            exact
@@ -207,6 +209,15 @@ const [accessToken,setToken] = React.useState(null);
             render={(props) => {
               const uid = props.match.params.uid;
               return <Profile uid={uid && uid} />;
+            }}
+           
+          />
+          <Route
+          exact
+            path="/collections/:type"
+            render={(props) => {
+              const type = props.match.params.type;
+              return <Library type={type && type} />;
             }}
            
           />

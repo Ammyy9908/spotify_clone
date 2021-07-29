@@ -1,8 +1,8 @@
 .main{
     
     height: 100vh;
-    background: rgb(64,64,64);
-    background: linear-gradient(170deg, rgba(76, 79, 248, 0.89) 0%, rgba(9,9,9,1) 35%, rgba(11,11,11,1) 100%);
+    background: rgb(20, 20, 20);
+    /* background: linear-gradient(170deg, rgba(76, 79, 248, 0.89) 0%, rgba(9,9,9,1) 35%, rgba(11,11,11,1) 100%); */
     grid-area: body;
     overflow-y: scroll;
 
@@ -230,6 +230,9 @@ right: 0;
     transition: background-color .3s ease;
     cursor: pointer;
 }
+.recommendation__card:hover{
+    background-color: rgba(136, 136, 136, 0.76);
+}
 .rcard__wrapper{
     display: flex;
     user-select: none;
@@ -454,6 +457,7 @@ right: 0;
     flex-grow: 1;
     min-width: 0;
     white-space: nowrap;
+    margin-left: 15px;
     
 }
 .track__header__content{
@@ -488,6 +492,141 @@ right: 0;
     opacity: 0;
 }
 
+.searchbar__nav{
+    min-width: 0;
+    flex-grow: 1;
+    margin-left: 15px;
+}
+.searchbar__nav >div{
+    display: flex;
+    align-items: center;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+   
+}
+.searchbar__nav >div>div{
+    flex: 0 1 364px;
+    position: relative;
+    pointer-events: auto;
+}
+.searchbar__nav >div>div>form{
+    display: block;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.searchbar__nav >div>div>form>input{
+    border: 0;
+    border-radius: 500px;
+    color: #000;
+    height: 40px;
+    padding: 6px 48px;
+    text-overflow: ellipsis;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+    outline: 0;
+}
+.search__icon{
+    display: flex;
+    left: 12px;
+    pointer-events: none;
+    position: absolute;
+    right: 12px;
+    top: 0;
+    align-items: center;
+    bottom: 0;
+}
+.search__icon>span{
+    flex: 1;
+    color: #121212;
+    -webkit-box-flex: 1;
+}
+.search__icon>span>svg{
+    width: 24px;
+    height: 24px;
+}
+
+/*Library Navbar*/
+.library__navbar__wrapper{
+    flex-grow: 1;
+    min-width: 0;
+    pointer-events: none;
+    margin-left: 15px;
+}
+.navbar__content{
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+.navbar__content > nav{
+    padding-left: 24px;
+    width: 100%;
+    pointer-events: none;
+    display: block;
+}
+
+.navbar__content > nav>ul{
+    list-style: none;
+    border: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+.navbar__content > nav>ul>li{
+    -webkit-app-region: no-drag;
+    display: inline-block;
+    pointer-events: auto;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+.navbar__content > nav>ul>li>a{
+    margin: 0 8px 0 0;
+    
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
+    position: relative;
+    text-decoration: none;
+}
+.navbar__content > nav>ul>li>.active{
+    background-color: rgba(51, 51, 51, 0.842);
+}
+.navbar__content > nav>ul>li>a>span{
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 16px;
+    text-transform: none;
+}
+
+/*Library Header*/
+
+.library__header{
+    align-content: space-between;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    justify-content: space-between;
+    margin: 16px 0;
+}
+.library__header >h1{
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 28px;
+    text-transform: none;
+}
 @media screen and (min-width:1024px){
     .contentSpacing{
         padding:0 32px;

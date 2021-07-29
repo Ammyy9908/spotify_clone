@@ -7,7 +7,7 @@ import PlayIcon from '../../assets/PlayIcon'
 import MoreIcon from "../../assets/MoreIcon"
 import ArrowIcon from '../../assets/ArrowIcon'
 import { setCurrentSong, setDrop, setPlaylists, setRecommendation, setUser } from '../../redux/actions/_appAction'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import analyze from "rgbaster";
@@ -15,6 +15,7 @@ import HeartIcon from '../../assets/HeartIcon'
 import Track from '../Track/Track'
 import PencilIcon from '../../assets/PencilIcon'
 import Toast from '../Toast/Toast'
+import SearchIcon from '../../assets/SearchIcon'
 
 
 
@@ -47,7 +48,7 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
     }
  // eslint-disable-next-line
     console.log("Gradient=>",isGradient);
-   return  <div className="app_bar" style={{backgroundColor:activePage!=="playlist" && isGradient  ? "rgb(76, 79, 248,.52)":color}}>
+   return  <div className="app_bar" style={{backgroundColor:isGradient?"rgba(20, 20, 20, 0.914)":color}}>
         <div className="app__bar__container">
         <div className="nav__buttons">
             <a href="/" onClick={handleGoBack}>
@@ -56,6 +57,9 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
             {!activePage==="playlist" && <a href="/" onClick={handleGoNext}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="8 4 17 12 8 20" fill="none" stroke="#ccc"></polyline></svg>
             </a>}
+            </div>
+
+
 
             {activePage==="playlist" && <div className="track__navbar">
                 <div className="track__header__content">
@@ -63,7 +67,46 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
                 <span style={{opacity:trackNav && "1"}}>{name}</span>
                 </div>
             </div>}
-        </div>
+
+            {activePage==="search"
+            && <div className="searchbar__nav">
+                <div>
+                    <div>
+                        <form action="">
+                            <input type="text" name="skey" id="skey" placeholder="Artists, songs, or podcasts"/>
+                        </form>
+                        <div className="search__icon">
+                            <span>
+                                <SearchIcon/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            {activePage.includes("library") && 
+            <div className="library__navbar__wrapper">
+                <div className="navbar__content">
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/collections/playlists" className={activePage.includes("playlist") && "active"}><span>Playlists</span></Link>
+                            </li>
+                            <li>
+                                <Link to="/collections/podcasts" className={activePage.includes("podcasts") && "active"}><span>Podcasts</span></Link>
+                            </li>
+                            <li>
+                                <Link to="/collections/artists" className={activePage.includes("artists") && "active"}><span>Artists</span></Link>
+                            </li>
+                            <li>
+                                <Link to="/collections/albums" className={activePage.includes("albums") && "active"}><span>Albums</span></Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            }
 
 
         {!user && <a href="https://spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
@@ -294,7 +337,7 @@ props.uid && fetchUser().then((user)=>{
 
 
     return (
-        <div className="main" onScroll={props.activePage==="home" || props.activePage==="playlist" ?handleScroll:null}>
+        <div className="main" onScroll={props.activePage==="home" || props.activePage==="playlist" || props.activePage==="search" ?handleScroll:null}>
             <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage} trackNav={trackNav} name={playlist && playlist.name}/>
             <div className="content__body">
                 <main className="view__container">
@@ -502,6 +545,22 @@ props.uid && fetchUser().then((user)=>{
                                     </div>
                             </div>
                         }
+
+                        {
+                            props.activePage.includes("library") &&
+                            <div className="profile__container contentSpacing">
+                                <div className="library__header">
+                                    <h1>{props.activePage.replace("library:","").charAt(0).toUpperCase()+props.activePage.replace("library:","").slice(1)}</h1>
+                                </div>
+                                {props.activePage.includes("library:playlist") && <div className="libarary__content">
+
+                                </div>}
+                            </div>
+                        }
+
+
+
+
 
 
 
