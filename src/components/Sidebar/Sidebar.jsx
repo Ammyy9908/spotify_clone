@@ -72,7 +72,7 @@ function Sidebar(props) {
                 <ul className="nav__links">
                     <li><Link to="/" className={`${props.activePage==="home" && "active_link"}`}><HomeIcon/> Home</Link></li>
                     <li><Link to="/search" className={`${props.activePage==="search" && "active_link"}`}><SearchIcon/> Search</Link></li>
-                    <li><Link to="/library" className={`${props.activePage==="library" && "active_link"}`}><LibraryIcon/> Your Library</Link></li>
+                    <li><Link to="/collections/playlist" className={`${props.activePage.includes("library") && "active_link"}`}><LibraryIcon/> Your Library</Link></li>
                 </ul>
                 <div className="playlists">
                     <div className="playlist__container">
