@@ -10,6 +10,7 @@ import Cookies  from 'js-cookie';
 // eslint-disable-next-line
 import axios from 'axios';
 import Player from '../../components/Player/Player';
+import {Helmet} from "react-helmet";
 
 function Home(props) {
     // eslint-disable-next-line
@@ -39,6 +40,10 @@ function Home(props) {
     }
     return (
         <div className="home__container" onClick={handleCancel}>
+             <Helmet>
+                <meta charSet="utf-8" />
+                <title>Spotify Clone:Web Player</title>
+            </Helmet>
             <Sidebar/>
             <Main/>
            

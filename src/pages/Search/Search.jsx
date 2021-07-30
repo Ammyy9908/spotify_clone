@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Main from '../../components/Main/Main';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -13,6 +14,10 @@ function Search(props) {
     []);
     return (
         <div className="home__container">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Spotify Clone-Search</title>
+            </Helmet>
             <Sidebar/>
             <Main/>
         </div>

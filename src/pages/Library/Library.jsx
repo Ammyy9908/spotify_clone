@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Main from '../../components/Main/Main';
 import Player from '../../components/Player/Player';
@@ -14,6 +15,10 @@ function Library(props) {
     },[props])
     return (
         <div className="home__container">
+             <Helmet>
+                <meta charSet="utf-8" />
+                <title>Spotify Clone-Your Library</title>
+            </Helmet>
             <Sidebar/>
             <Main/>
             <Player/>

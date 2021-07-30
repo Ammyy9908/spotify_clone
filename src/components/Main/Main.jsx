@@ -281,6 +281,7 @@ function Main(props) {
         props.id && getPlayList().then((playlist)=>{
             console.log("Playlist=>",playlist);
             setPlaylist(playlist);
+            props.setPlaylist(playlist);
         }).catch((e)=>{
             console.log(e);
         })
