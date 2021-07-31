@@ -153,7 +153,7 @@ function Player(props) {
                 <div className="player__song__volume__range">
                   <div
                     className="volume__range"
-                    style={{ width: "20%" }}
+                    style={{ width: props.device && props.device.volume_percent+"%" }}
                     id="volume__range"
                   >
                     <span className="thumb" id="thumb"></span>
@@ -162,7 +162,7 @@ function Player(props) {
                     type="range"
                     name="volume"
                     id="volume"
-                    value={volume}
+                    value={props.device && props.device.volume_percent}
                     min="0"
                     max="100"
                   />
@@ -173,6 +173,7 @@ function Player(props) {
               </div>
             </div>
           </div>
+        
         </div>
 }
     </>
@@ -181,7 +182,8 @@ function Player(props) {
 
 
 const mapStateToProps = (state)=>({
-    currentSong:state.appReducer.currentSong
+    currentSong:state.appReducer.currentSong,
+    device:state.appReducer.device
 })
 
 const mapDispatchToProps = (dispatch)=>({

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
+import DeviceInfo from '../../components/DeviceInfo/DeviceInfo'
 import Main from '../../components/Main/Main'
 import Player from '../../components/Player/Player'
 import Sidebar from '../../components/Sidebar/Sidebar'
@@ -21,11 +22,12 @@ function Playlist(props) {
         <div className="home__container">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>Spotify Clone-{currentPlaylist && currentPlaylist.name}</title>
+                <title>Spotify Clone-Web Player</title>
             </Helmet>
             <Sidebar/>
             <Main id={props.id} setPlaylist={setPlaylist}/>
             <Player/>
+            <DeviceInfo/>
         </div>
     )
 }

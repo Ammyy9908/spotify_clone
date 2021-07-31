@@ -10,7 +10,8 @@ const intialState = {
     dropdown:false,
     userPlaylist:null,
     recentPlayed:null,
-    error:null
+    error:null,
+    device:null
 
  }
  
@@ -21,6 +22,13 @@ const intialState = {
                ...state,
                error:action.error
             }
+         }
+
+         case "SET_DEVICE":{
+             return{
+                 ...state,
+                 device:action.device
+             }
          }
 
        case "SET_OFFLINE_DATA":{

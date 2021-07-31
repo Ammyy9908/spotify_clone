@@ -35,6 +35,11 @@ export const setOfflineData = (offline_data)=>({
      type:"SET_ERROR",
      error
  })
+
+ export const setDevice = (device)=>({
+     type:"SET_DEVICE",
+     device
+ })
  export const setDrop = (dropdown)=>({
      type:"SET_DROPDOWN",
      dropdown

@@ -183,7 +183,7 @@ function Recommendation({recommendations}){
 
             <div className="recommendation__section">
                 <div className="recommendation__header">
-                    <h2>Recent Played</h2>
+                    <h2>Good {new Date().getHours()<12 && "morning"} {new Date().getHours()>=12 && new Date().getHours()<16 && "afternoon"} {new Date().getHours()>16 && new Date().getHours()<18 && "evening"} {new Date().getHours()>18 && new Date().getHours()<0 && "night"}</h2>
                 </div>
                 <div className="recommendation__grid">
                    {/* <RecommendationCard/>
@@ -285,7 +285,10 @@ function Main(props) {
         }).catch((e)=>{
             console.log(e);
         })
-    },[props.id])
+    },
+    
+    // eslint-disable-next-line
+    [props.id])
 
 
 
@@ -433,7 +436,7 @@ props.uid && fetchUser().then((user)=>{
                                                     <div className="playlist__meta__info">
                                                         <div><a href="/">{playlist && playlist.owner.display_name}</a></div>
                                                         <div className="playlist__likes">{playlist && playlist.followers.total} likes</div>
-                                                        <div className="playlist__tracks__count">75 songs,{hours} hr {min} min</div>
+                                                        <div className="playlist__tracks__count">{playlist && playlist.tracks.items.length} songs,{hours} hr {min} min</div>
                                                         
                                                     </div>
                                                 </div>
