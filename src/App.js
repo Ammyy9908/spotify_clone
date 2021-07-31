@@ -3,7 +3,7 @@ import Home from './pages/Home/Home';
 import React from "react";
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setCurrentSong, setOfflineData, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
+import { setCurrentSong, setDevice, setOfflineData, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 import Search from './pages/Search/Search';
 import {getTokenFromResponse} from "./spotify";
@@ -20,7 +20,9 @@ const [accessToken,setToken] = React.useState(null);
   const token= !Cookies.get("SPOTIFY_TOKEN") && getTokenFromResponse();
  
   console.log("The Auth Token is ",token.access_token);
-  token.access_token && Cookies.set("SPOTIFY_TOKEN",token.access_token);
+  token.access_token && Cookies.set("SPOTIFY_TOKEN",token.access_token,{
+    expires:new Date(new Date().getTime() + 60 * 60 * 1000)
+  });
 
  
 
@@ -140,6 +142,25 @@ const [accessToken,setToken] = React.useState(null);
     }
 
 
+    //function to get current playing device
+
+    const getCurrentDevice = async ()=>{
+      try{
+        const r = await axios.get(`https://api.spotify.com/v1/me/player`,{
+          headers:{
+            "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+          }
+        });
+        return r.data;
+      }
+      catch(e){
+        if(e.response && e.response.data){
+          return e.response.data;
+        }
+      }
+    }
+
+
 
 
    
@@ -168,6 +189,11 @@ const [accessToken,setToken] = React.useState(null);
       
       props.setPlaylists(playlists.items);
     }).catch((e)=>console.error(e.messagge));
+
+    Cookies.get("SPOTIFY_TOKEN") && getCurrentDevice().then((device)=>{
+      console.log("Current Device=>",device.device);
+      props.setDevice(device.device);
+    }).catch(e=>console.error(e));
 
   
 
@@ -243,6 +269,7 @@ const mapDispatchToProps = (dispatch)=>({
   setRecommendation:(recommendations)=>dispatch(setRecommendation(recommendations)),
   setUser:(user)=>dispatch(setUser(user)),
   setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
-  setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist))
+  setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist)),
+  setDevice:(device)=>dispatch(setDevice(device))
 })
 export default connect(null,mapDispatchToProps)(App);
