@@ -102,6 +102,9 @@
     document.querySelector('.song__album').textContent = artists.map((artist)=>{
       return artist.name
     })
+
+
+    document.querySelector('.progress__value').style.width=`${(state.position/state.duration)*100}`;
     }
   
   });
