@@ -11,6 +11,7 @@ import Cookies  from 'js-cookie';
 import axios from 'axios';
 import Player from '../../components/Player/Player';
 import {Helmet} from "react-helmet";
+// eslint-disable-next-line
 import DeviceInfo from '../../components/DeviceInfo/DeviceInfo';
 
 function Home(props) {
@@ -49,7 +50,7 @@ function Home(props) {
             <Main/>
            
             <Player/>
-            <DeviceInfo/>
+            {/* <DeviceInfo/> */}
         </div>
     )
 }

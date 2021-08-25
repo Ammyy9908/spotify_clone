@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+// eslint-disable-next-line
 import DeviceInfo from '../../components/DeviceInfo/DeviceInfo';
 import Main from '../../components/Main/Main';
 import Player from '../../components/Player/Player';
@@ -23,7 +24,7 @@ function Profile(props) {
             <Sidebar/>
             <Main uid={props.uid}/>
             <Player/>
-            <DeviceInfo/>
+            {/* <DeviceInfo/> */}
         </div>
     )
 }
