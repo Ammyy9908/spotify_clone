@@ -370,7 +370,7 @@ props.uid && fetchUser().then((user)=>{
   const handleTrackPlay = async (uri)=>{
     try{
         const r = await axios.put('https://api.spotify.com/v1/me/player/play',{
-            "context_uri": uri,
+            "uris": [uri],
             "offset": {
               "position": 5
             },
