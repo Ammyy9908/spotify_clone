@@ -32,15 +32,11 @@
       window.onSpotifyWebPlaybackSDKReady = () => {
 
 
-        const play = (
-  playerInstance,
-  spotify_uri,
-  access_token
-) => {
+        const play = (playerInstance,spotify_uri,access_token) => {
 
   console.log("Device Id",playerInstance)
   
-    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${playerInstance.id}`, {
+    fetch(`https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20`, {
       method: 'PUT',
       body: JSON.stringify({ uris: [spotify_uri] }),
       headers: {
@@ -78,11 +74,7 @@
     getOAuthToken: cb => { cb(token); }
   });
 
-  play(
-  player,
-  'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
-  token
-);
+  play(player,'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',token);
 
 
   player.addListener('initialization_error', ({ message }) => { console.error(message); });
