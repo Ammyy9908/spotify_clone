@@ -33,7 +33,6 @@ function SectionCard({name,extra,image,handlePlay,uri}){
                     {extra}
                 </div>
             </div>
-            <div className="card__click__handler"></div>
         </div>
     </div>
 }

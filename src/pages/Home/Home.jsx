@@ -37,7 +37,7 @@ function Home(props) {
         console.log(e.target);
         if(!e.target.classList.contains("auth_drop") && !e.target.classList.contains("avatar__image__nav") && !e.target.classList.contains("arrow__icon")
          && !e.target.classList.contains("account__btn") && !e.target.classList.contains("logout__btn") && !e.target.classList.contains("profile__btn")){
-            props.setDrop(false);
+           return  props.setDrop(false);
         }
     }
     return (
