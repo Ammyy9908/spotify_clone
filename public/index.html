@@ -38,7 +38,7 @@
   
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20`, {
       method: 'PUT',
-      body: JSON.stringify({ uris: [spotify_uri] }),
+      body: { uris: [spotify_uri] },
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${access_token}`
