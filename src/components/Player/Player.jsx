@@ -226,11 +226,7 @@ function Player(props) {
                   <div
                     className="progress__value"
                     style={{
-                        width:
-                          (props.currentSong.progress_ms /
-                            props.currentSong.item.duration_ms) *
-                            100 +
-                          "%",
+                        
                         height: "100%",
                       }}
                   ></div>
