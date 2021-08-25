@@ -72,7 +72,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: -35px;
+    /* top: -35px; */
   }
   .play__button {
     width: 35px;
@@ -144,6 +144,9 @@
     border-radius: 10px;
     margin-left: 25px;
     margin-right: 15px;
+  }
+  .player__volume__control svg{
+    fill: rgb(160, 160, 160);
   }
   .volume__range {
     width: 0px;

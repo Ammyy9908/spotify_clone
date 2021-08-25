@@ -187,6 +187,7 @@ function Player(props) {
                   <img
                     src={props.currentSong.item && props.currentSong.item.album.images[0].url}
                     alt="song-thumb"
+                    className="current-song-thumb"
                   />
                 </div>
                 <div className="song__text__info">
@@ -215,7 +216,7 @@ function Player(props) {
                    <NextIcon/>
                </button>
               </div>
-              <div className="player__center__bottom">
+              {/* <div className="player__center__bottom">
                 <span className="time_elapsed">
                 {Math.floor((props.currentSong.progress_ms / 1000 / 60) << 0) +
                     ":" +
@@ -241,7 +242,7 @@ function Player(props) {
                     ":" +
                     Math.floor((props.currentSong.item.duration_ms / 1000) % 60)}
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="player__right">
               <div className="player__volume__control">
