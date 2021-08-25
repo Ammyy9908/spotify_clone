@@ -340,6 +340,41 @@ props.uid && fetchUser().then((user)=>{
   let hours = Math.floor((dur / 1000 / 60 / 60) << 0);
 
 
+
+  const handleAlbumPlay = async ()=>{
+        try{
+            const r = await axios.put('https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20',{
+                "context_uri": "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr",
+                "offset": {
+                  "position": 5
+                },
+                "position_ms": 0
+              },{
+                  headers:{
+                      "ContentType":"application/json",
+                      "Authorization":`Bearer ${Cookies.get('AUTH_TOKEN')}`
+                  }
+              });
+
+              return r.data;
+        }
+
+        catch(e){
+            if(e.response && e.response.data){
+                return e.response.data;
+            }
+        }
+  }
+
+  const playAlbum = ()=>{
+    handleAlbumPlay().then((response)=>{
+        console.log('Track played!');
+    }).catch((e)=>{
+        console.log(`Eror while starting player => ${e}`);
+    })
+  }
+
+
     return (
         <div className="main" onScroll={props.activePage==="home" || props.activePage==="playlist" || props.activePage==="search" ?handleScroll:null}>
             <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage} trackNav={trackNav} name={playlist && playlist.name}/>
@@ -449,7 +484,7 @@ props.uid && fetchUser().then((user)=>{
                                        
                                         <div className="track__header contentSpacing">
                                             <div className="track__header__wrapper">
-                                                <button><PlayIcon/></button>
+                                                <button onClick={playAlbum}><PlayIcon/></button>
                                                 <button><HeartIcon/></button>
                                                 <button><MoreIcon/></button>
                                             </div>
