@@ -351,7 +351,7 @@ props.uid && fetchUser().then((user)=>{
                 "position_ms": 0
               },{
                   headers:{
-                      "ContentType":"application/json",
+                     
                       "Authorization":`Bearer ${Cookies.get('AUTH_TOKEN')}`
                   }
               });
