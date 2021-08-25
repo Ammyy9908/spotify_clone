@@ -4,6 +4,11 @@ import "./Section.css"
 
 
 function SectionCard({name,extra,image,handlePlay,uri}){
+
+    const play = ()=>{
+        alert('Button clicked');
+        handlePlay(uri);
+    }
     return <div className="section__card">
         <div className="section__card__body">
             <div className="card__thumb">
@@ -13,7 +18,7 @@ function SectionCard({name,extra,image,handlePlay,uri}){
                 </div>
                 </div>
                 <div className="card_play_btn">
-                    <button onClick={()=>handlePlay(uri)}>
+                    <button onClick={play}>
                         <PlayIcon/>
                     </button>
                 </div>
