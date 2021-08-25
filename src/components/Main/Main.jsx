@@ -341,10 +341,10 @@ props.uid && fetchUser().then((user)=>{
 
 
 
-  const handleAlbumPlay = async ()=>{
+  const handleAlbumPlay = async (uri)=>{
         try{
-            const r = await axios.put('https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20',{
-                "context_uri": `${playlist.uri}`,
+            const r = await axios.put('https://api.spotify.com/v1/me/player/play',{
+                "context_uri": uri,
                 "offset": {
                   "position": 5
                 },
@@ -396,8 +396,8 @@ props.uid && fetchUser().then((user)=>{
     })
   }
 
-  const playAlbum = ()=>{
-    handleAlbumPlay().then((response)=>{
+  const playAlbum = (uri)=>{
+    handleAlbumPlay(uri).then((response)=>{
         console.log('Track played!');
     }).catch((e)=>{
         console.log(`Eror while starting player => ${e}`);
@@ -429,7 +429,7 @@ props.uid && fetchUser().then((user)=>{
                                 
                                 {
                                     props.offline_data && props.offline_data.items.slice(2).map((section,i)=>{
-                                        return <Section text={section.name} items={section.content.items}/>
+                                        return <Section text={section.name} items={section.content.items} handlePlay={playAlbum} key={i}/>
                                     })
                                 }
                             </div>
@@ -518,7 +518,7 @@ props.uid && fetchUser().then((user)=>{
                                        
                                         <div className="track__header contentSpacing">
                                             <div className="track__header__wrapper">
-                                                <button onClick={playAlbum}><PlayIcon/></button>
+                                                <button onClick={()=>playAlbum(playlist.uri)}><PlayIcon/></button>
                                                 <button><HeartIcon/></button>
                                                 <button><MoreIcon/></button>
                                             </div>
