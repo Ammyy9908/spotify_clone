@@ -344,7 +344,7 @@ props.uid && fetchUser().then((user)=>{
   const handleAlbumPlay = async ()=>{
         try{
             const r = await axios.put('https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20',{
-                "context_uri": "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr",
+                "context_uri": `spotify:album:${playlist.id}`,
                 "offset": {
                   "position": 5
                 },
