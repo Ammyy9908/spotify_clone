@@ -34,13 +34,13 @@
 
         const play = (playerInstance,spotify_uri,access_token) => {
 
-  console.log("Device Id",playerInstance)
+  console.log("Device Id",access_token)
   
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20`, {
       method: 'PUT',
       body: {
-        "context_uri": "spotify:album:5lui0udibNUOkjYfD3If4H",
-        "position_ms": 10
+        context_uri: "spotify:album:5lui0udibNUOkjYfD3If4H",
+        position_ms: 10
        },
       headers: {
         'Content-Type': 'application/json',
