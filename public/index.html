@@ -37,6 +37,8 @@
   playerInstance,
   access_token
 ) => {
+
+  console.log("Device Id",playerInstance)
   
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${playerInstance.id}`, {
       method: 'PUT',
