@@ -8,7 +8,7 @@ import PlayIcon from "../../assets/PlayIcon";
 import "./Player.css"
 import { connect } from "react-redux";
 import PauseIcon from "../../assets/PauseIcon";
-import { setError } from "../../redux/actions/_appAction";
+import { setCurrentSong, setError, setPlaying } from "../../redux/actions/_appAction";
 
 function Player(props) {
     console.log("Current song meta is",props.currentSong);
@@ -61,8 +61,12 @@ function Player(props) {
             const {error} = pauseResponse;
             if(error){
                 console.log(error.message);
-                props.setError(error.message);
+                return props.setError(error.message);
             }
+            console.log('song paused!');
+            props.setPlaying(false);
+
+
             
     }).catch((e)=>{
         console.log("Error",e);
@@ -74,11 +78,103 @@ function Player(props) {
         const {error} = playResponse;
         if(error){
             console.log(error.message);
-            props.setError(error.message);
+            return props.setError(error.message);
         }
+
+        console.log('song played!');
+        props.setPlaying(true);
 }).catch((e)=>{
     console.log("Error",e);
 });
+  }
+
+
+  const playPrev = async ()=>{
+    try{
+      const r = await axios.post('https://api.spotify.com/v1/me/player/previous',{},{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
+
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+    }
+    }
+  }
+
+
+  const playNext = async ()=>{
+    try{
+      const r = await axios.post('https://api.spotify.com/v1/me/player/next',{},{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
+
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+    }
+    }
+  }
+
+
+  const getCurrentTrack = async ()=>{
+    try{
+      const r = await axios.get(`https://api.spotify.com/v1/me/player/currently-playing`,{
+        headers:{
+          "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+        }
+      });
+
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+      }
+    }
+  }
+
+
+
+  //handlePrev
+
+  const handlePrev = ()=>{
+    playPrev().then((response)=>{
+      console.log(response)
+      getCurrentTrack().then((currentTrack)=>{
+      
+        props.setCurrentSong(currentTrack);
+        if(currentTrack.is_playing){
+          props.setPlaying(true);
+        }
+      }).catch(e=>console.error(e.messagge));
+    })
+    .catch((e)=>{
+      console.log(`Error in Previous=> ${e}`);
+    })
+  }
+
+
+  const handleNext = ()=>{
+    playNext().then((response)=>{
+      console.log(response);
+      getCurrentTrack().then((currentTrack)=>{
+      
+        props.setCurrentSong(currentTrack);
+        if(currentTrack.is_playing){
+          props.setPlaying(true);
+        }
+      }).catch(e=>console.error(e.messagge));
+    })
+    
   }
   return (
     <>
@@ -105,17 +201,17 @@ function Player(props) {
             </div>
             <div className="player__center">
               <div className="player__center__top">
-                <button className="prev_btn">
+                <button className="prev_btn" onClick={handlePrev}>
                     <PrevIcon/>
                 </button>
                 <button
                   className="play__button"
-                  onClick={props.currentSong.is_playing?handlePause:handlePlay}
+                  onClick={props.isPlaying?handlePause:handlePlay}
                 >
-                { props.currentSong.is_playing?<PauseIcon/>:<PlayIcon/>}
+                { props.isPlaying?<PauseIcon/>:<PlayIcon/>}
                 </button>
 
-               <button className="next_btn">
+               <button className="next_btn" onClick={handleNext}>
                    <NextIcon/>
                </button>
               </div>
@@ -183,10 +279,13 @@ function Player(props) {
 
 const mapStateToProps = (state)=>({
     currentSong:state.appReducer.currentSong,
-    device:state.appReducer.device
+    device:state.appReducer.device,
+    isPlaying:state.appReducer.isPlaying
 })
 
 const mapDispatchToProps = (dispatch)=>({
-    setError:(error)=>dispatch(setError(error))
+    setError:(error)=>dispatch(setError(error)),
+    setPlaying:(playing)=>dispatch(setPlaying(playing)),
+    setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Player);

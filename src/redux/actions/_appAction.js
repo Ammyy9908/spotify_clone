@@ -71,3 +71,8 @@ export const setAccessToken = (accessToken)=>({
     type:"SET_ACCESS_TOKEN",
     accessToken
  })
+
+ export const setPlaying= (playing)=>({
+     type:"SET_PLAYING",
+     playing
+ })

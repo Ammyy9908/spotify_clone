@@ -1,6 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
+// eslint-disable-next-line
 import DeviceInfo from '../../components/DeviceInfo/DeviceInfo'
 import Main from '../../components/Main/Main'
 import Player from '../../components/Player/Player'
@@ -27,7 +28,7 @@ function Playlist(props) {
             <Sidebar/>
             <Main id={props.id} setPlaylist={setPlaylist}/>
             <Player/>
-            <DeviceInfo/>
+            {/* <DeviceInfo/> */}
         </div>
     )
 }

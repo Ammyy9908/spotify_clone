@@ -11,7 +11,8 @@ const intialState = {
     userPlaylist:null,
     recentPlayed:null,
     error:null,
-    device:null
+    device:null,
+    isPlaying:false
 
  }
  
@@ -22,6 +23,13 @@ const intialState = {
                ...state,
                error:action.error
             }
+         }
+
+         case "SET_PLAYING":{
+             return{
+                 ...state,
+                 isPlaying:action.playing
+             }
          }
 
          case "SET_DEVICE":{

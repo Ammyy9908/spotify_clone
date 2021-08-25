@@ -3,7 +3,7 @@ import Home from './pages/Home/Home';
 import React from "react";
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setCurrentSong, setDevice, setOfflineData, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
+import { setCurrentSong, setDevice, setOfflineData, setPlaying, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 import Search from './pages/Search/Search';
 import {getTokenFromResponse} from "./spotify";
@@ -11,6 +11,23 @@ import Cookies from "js-cookie";
 import Playlist from './pages/Playlist/Playlist';
 import Profile from './pages/Profile/Profile';
 import Library from './pages/Library/Library';
+import SpotifyWebAPI from "spotify-web-api-js";
+
+//the first one is original spotify app
+
+//and this is frontend of the application
+
+const spotify = new SpotifyWebAPI();
+
+
+
+//spotify player
+
+
+
+
+
+
 function App(props) {
    // eslint-disable-next-line
 const [accessToken,setToken] = React.useState(null);
@@ -41,6 +58,12 @@ const [accessToken,setToken] = React.useState(null);
       catch(e){
         console.log(e)
       }
+    }
+
+    if(Cookies.get("SPOTIFY_TOKEN")){
+      spotify.setAccessToken(Cookies.get("SPOTIFY_TOKEN"));
+
+
     }
 
     Cookies.get("SPOTIFY_TOKEN") && getRecommendation().then((data)=>{
@@ -182,6 +205,9 @@ const [accessToken,setToken] = React.useState(null);
     Cookies.get("SPOTIFY_TOKEN") && getCurrentTrack().then((currentTrack)=>{
       
       props.setCurrentSong(currentTrack);
+      if(currentTrack.is_playing){
+        props.setPlaying(true);
+      }
     }).catch(e=>console.error(e.messagge));
 
 
@@ -270,6 +296,7 @@ const mapDispatchToProps = (dispatch)=>({
   setUser:(user)=>dispatch(setUser(user)),
   setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
   setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist)),
-  setDevice:(device)=>dispatch(setDevice(device))
+  setDevice:(device)=>dispatch(setDevice(device)),
+  setPlaying:(playing)=>dispatch(setPlaying(playing))
 })
 export default connect(null,mapDispatchToProps)(App);
