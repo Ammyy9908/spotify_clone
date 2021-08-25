@@ -4,9 +4,12 @@ import MoreIcon from '../../assets/MoreIcon';
 import PlayIcon from '../../assets/PlayIcon';
 import "./Track.css"
 
-function Track({index,name,artists,cover,date}) {
+function Track({index,name,artists,cover,date,handlePlay,uri}) {
+
+
+
     return (
-        <div className="track">
+        <div className="track" onClick={()=>handlePlay(uri)}>
             <div className="track__wrapper">
                 <div className="track__number">
                     <div>

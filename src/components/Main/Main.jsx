@@ -366,6 +366,40 @@ props.uid && fetchUser().then((user)=>{
         }
   }
 
+
+  const handleTrackPlay = async (uri)=>{
+    try{
+        const r = await axios.put('https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20',{
+            "context_uri": uri,
+            "offset": {
+              "position": 5
+            },
+            "position_ms": 0
+          },{
+              headers:{
+                 
+                  "Authorization":`Bearer ${Cookies.get('SPOTIFY_TOKEN')}`
+              }
+          });
+
+          return r.data;
+    }
+
+    catch(e){
+        if(e.response && e.response.data){
+            return e.response.data;
+        }
+    }
+  }
+
+  const playTrack = (uri)=>{
+    handleTrackPlay(uri).then((response)=>{
+        console.log('Track Playing!');
+    }).catch((e)=>{
+        console.log('Error in playing track',e);
+    })
+  }
+
   const playAlbum = ()=>{
     handleAlbumPlay().then((response)=>{
         console.log('Track played!');
@@ -525,7 +559,7 @@ props.uid && fetchUser().then((user)=>{
                                                             
                                                             {
                                                                 playlist && playlist.tracks.items.map((item,i)=>{
-                                                                    return <Track name={item.track.name} artists={item.track.artists} cover={item.track.album.images[2].url} date={item.added_at} index={i}/>
+                                                                    return <Track name={item.track.name} artists={item.track.artists} cover={item.track.album.images[2].url} date={item.added_at} index={i} handlePlay = {playTrack} uri={item.track.uri}/>
                                                                 })
                                                             }
                                                         </div>
