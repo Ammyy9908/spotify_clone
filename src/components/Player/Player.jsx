@@ -195,7 +195,7 @@ function Player(props) {
                     {props.currentSong.item && props.currentSong.item.name}
                   </strong>
                   <span className="song__album">
-                    {props.currentSong.item && props.currentSong.item.album.artists[0].name}
+                    {props.currentSong.item && props.currentSong.item.artists.map((artist)=>artist.name)}
                   </span>
                 </div>
               </div>
