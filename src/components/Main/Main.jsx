@@ -352,7 +352,7 @@ props.uid && fetchUser().then((user)=>{
               },{
                   headers:{
                      
-                      "Authorization":`Bearer ${Cookies.get('AUTH_TOKEN')}`
+                      "Authorization":`Bearer ${Cookies.get('SPOTIFY_TOKEN')}`
                   }
               });
 
