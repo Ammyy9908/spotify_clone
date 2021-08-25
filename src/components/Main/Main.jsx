@@ -371,10 +371,6 @@ props.uid && fetchUser().then((user)=>{
     try{
         const r = await axios.put('https://api.spotify.com/v1/me/player/play',{
             "uris": [uri],
-            "offset": {
-              "position": 5
-            },
-            "position_ms": 0
           },{
               headers:{
                  
