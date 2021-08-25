@@ -66,12 +66,17 @@
     console.log('Song State Change and state is ',state)
 
     if(state){
-      const currentTrack = state.track_window.current_track.album
-      const songThumb = currentTrack.images[2].url;
+      const currentTrack = state.track_window.current_track;
+      const songThumb = currentTrack.album.images[2].url;
       const songName = currentTrack.name;
+      const artists = currentTrack.artists;
 
     document.querySelector('.current-song-thumb').setAttribute('src',songThumb);
     document.querySelector('.song__name').textContent = songName;
+
+    document.querySelector('.song__album').textContent = artists.map((artist)=>{
+      return artist.name
+    })
     }
   
   });
