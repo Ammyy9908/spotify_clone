@@ -38,7 +38,10 @@
   
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=ec896299ed25778bb88c6091cd2562e0eedb2b20`, {
       method: 'PUT',
-      body: { uris: [spotify_uri] },
+      body: {
+        "context_uri": "spotify:album:5lui0udibNUOkjYfD3If4H",
+        "position_ms": 10
+       },
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${access_token}`
