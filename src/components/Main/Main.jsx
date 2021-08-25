@@ -142,7 +142,7 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
 }
 
 
-function RecommendationCard({image,name}){
+function RecommendationCard({image,name,uri,handlePlay}){
     return (
         <div className="recommendation__card">
        <div className="rcard__wrapper">
@@ -155,7 +155,7 @@ function RecommendationCard({image,name}){
             <a href="/"><p>
             {name}</p></a>
             <div className="rcard__button">
-                <button className="play_btn">  <PlayIcon/></button>
+                <button className="play_btn" onClick={()=>handlePlay(uri)}>  <PlayIcon/></button>
             </div>
            </div>
            <div></div>
@@ -177,13 +177,13 @@ function BrowseCard({color,image,title}){
 }
 
 
-function Recommendation({recommendations}){
+function Recommendation({recommendations,handlePlay}){
     return <div className="recommendations">
         <div className="contentSpacing">
 
             <div className="recommendation__section">
                 <div className="recommendation__header">
-                    <h2>Good {new Date().getHours()<12 && "morning"} {new Date().getHours()>=12 && new Date().getHours()<16 && "afternoon"} {new Date().getHours()>16 && new Date().getHours()<18 && "evening"} {new Date().getHours()>18 && new Date().getHours()<0 && "night"}</h2>
+                    <h2>Good {new Date().getHours()<12 && "morning"} {new Date().getHours()>=12 && new Date().getHours()<16 && "afternoon"} {new Date().getHours()>16 && new Date().getHours()<18 && "evening"} {new Date().getHours()>21 &&  "night"}</h2>
                 </div>
                 <div className="recommendation__grid">
                    {/* <RecommendationCard/>
@@ -192,7 +192,7 @@ function Recommendation({recommendations}){
 
                    {
                         recommendations && recommendations.slice(0,6).map((recommendation,i)=>{
-                            return <RecommendationCard key={i} name={recommendation.track.name} image={recommendation.track.album.images[2].url}/>
+                            return <RecommendationCard key={i} name={recommendation.track.name} image={recommendation.track.album.images[2].url} uri={recommendation.track.uri} handlePlay={handlePlay} />
                         })
                        
                    }
@@ -405,6 +405,10 @@ props.uid && fetchUser().then((user)=>{
   }
 
 
+
+
+
+
     return (
         <div className="main" onScroll={props.activePage==="home" || props.activePage==="playlist" || props.activePage==="search" ?handleScroll:null}>
             <AppBar isGradient={isGradient} user={props.user} setDrop={props.setDrop} dropdown={props.dropdown} setUser={props.setUser} setRecommendation={props.setRecommendation} setCurrentSong={props.setCurrentSong} setPlaylists={props.setPlaylists} color={color && color} activePage={props.activePage} trackNav={trackNav} name={playlist && playlist.name}/>
@@ -417,7 +421,7 @@ props.uid && fetchUser().then((user)=>{
                     
                         {props.activePage === "home" &&
 
-                        <>{props.user &&  <Recommendation recommendations={props.recommendations}/>}
+                        <>{props.user &&  <Recommendation recommendations={props.recommendations} handlePlay = {playTrack}/>}
                         <div className="home__body">
                             <div className="section__body">
                             <div className="sections contentSpacing">
