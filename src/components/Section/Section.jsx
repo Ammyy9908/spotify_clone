@@ -1,6 +1,7 @@
 import React from 'react';
 import PlayIcon from '../../assets/PlayIcon';
 import "./Section.css"
+// eslint-disable-next-line
 import handleAlbumPlay from "../../utils/AlbumPlay"
 
 function SectionCard({name,extra,image,uri}){
