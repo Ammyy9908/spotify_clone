@@ -37,14 +37,15 @@
     justify-content: flex-end;
     gap:15px;
   }
-  .player__right svg{
+  .player__right .device__button svg{
     fill: rgb(160, 160, 160) !important;
   }
 
   .device__button {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    width: 100%;
   }
   .device__button button{
     background-color: transparent;
