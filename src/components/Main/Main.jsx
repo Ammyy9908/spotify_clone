@@ -183,7 +183,7 @@ function Recommendation({recommendations,handlePlay}){
 
             <div className="recommendation__section">
                 <div className="recommendation__header">
-                    <h2>Good {new Date().getHours()<12 && "morning"} {new Date().getHours()>=12 && new Date().getHours()<16 && "afternoon"} {new Date().getHours()>16 && new Date().getHours()<18 && "evening"} {new Date().getHours()>21 &&  "night"}</h2>
+                    <h2>Good {new Date().getHours()<12 && "morning"} {new Date().getHours()>=12 && new Date().getHours()<16 && "afternoon"} {new Date().getHours()>16 && new Date().getHours()<20 && "evening"} {new Date().getHours()>20 &&  "night"}</h2>
                 </div>
                 <div className="recommendation__grid">
                    {/* <RecommendationCard/>
