@@ -183,15 +183,30 @@ function Recommendation({recommendations,handlePlay}){
 
     console.log(uniqueArray);
 
+
+    const getGreet = ()=>{
+        const hour = new Date().getHours();
+
+        if(hour<12){
+            return "morning 🙏"
+        }
+        if(hour>=12){
+            return "afternoon 😎";
+        }
+        if(hour>17){
+            return "evening 🌦"
+        }
+        if(hour>20 || hour<0){
+            return "night 😴"
+        }
+    }
+
     return <div className="recommendations">
         <div className="contentSpacing">
 
             <div className="recommendation__section">
                 <div className="recommendation__header">
-                    <h2>Good {new Date().getHours()<12 ? "morning 🙏":null} 
-                    {new Date().getHours()>=12 ? "afternoon 😎":null}
-                     {new Date().getHours()>17 ? "evening 🌦":null}
-                      {new Date().getHours()>20 ?  "night 😴":null} </h2>
+                    <h2>Good {getGreet()} </h2>
                 </div>
                 <div className="recommendation__grid">
                
