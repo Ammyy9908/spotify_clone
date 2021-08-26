@@ -23,7 +23,7 @@ function Player(props) {
       {
         method: "PUT", // or 'PUT'
         headers: {
-          "Content-Type": "application/json",
+          
           Authorization: "Bearer " + Cookies.get("SPOTIFY_TOKEN"),
         },
       }
