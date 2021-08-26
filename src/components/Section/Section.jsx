@@ -6,7 +6,11 @@ import handleAlbumPlay from "../../utils/AlbumPlay"
 
 function SectionCard({name,extra,image,uri}){
 
-    
+    const play = ()=>{
+        alert('Button clicked');
+        console.log(uri)
+       
+    }
     return <div className="section__card">
         <div className="section__card__body">
             <div className="card__thumb">
@@ -15,10 +19,8 @@ function SectionCard({name,extra,image,uri}){
                     <img src={image} alt="" />
                 </div>
                 </div>
-                <div className="card_play_btn" onClick={()=>{
-                        alert('Working!');
-                    }}>
-                    <button>
+                <div className="card_play_btn">
+                    <button onClick={play}>
                         <PlayIcon/>
                     </button>
                 </div>
