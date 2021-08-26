@@ -147,7 +147,7 @@ function Player(props) {
   //handlePrev
 
   const handlePrev = ()=>{
-    playPrev().then((response)=>{
+    playNext().then((response)=>{
       console.log(response)
       getCurrentTrack().then((currentTrack)=>{
       
@@ -164,8 +164,8 @@ function Player(props) {
 
 
   const handleNext = ()=>{
-    playNext().then((response)=>{
-      console.log(response);
+    playPrev().then((response)=>{
+      console.log(response)
       getCurrentTrack().then((currentTrack)=>{
       
         props.setCurrentSong(currentTrack);
@@ -174,7 +174,9 @@ function Player(props) {
         }
       }).catch(e=>console.error(e.messagge));
     })
-    
+    .catch((e)=>{
+      console.log(`Error in Playing Next Song=> ${e}`);
+    })
   }
   return (
     <>
