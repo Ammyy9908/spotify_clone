@@ -187,18 +187,16 @@ function Recommendation({recommendations,handlePlay}){
     const getGreet = ()=>{
         const hour = new Date().getHours();
 
-        if(hour<12){
-            return "morning 🙏"
-        }
-        if(hour>=12 && hour<=17){
-            return "afternoon 😎";
-        }
-        if(hour>17 && hour<=19){
-            return "evening 🌦"
-        }
-        if(hour>20 && hour<0){
-            return "night 😴"
-        }
+        if (hour < 12) {  
+            return "morning";  
+          } else if (hour < 17) {  
+            return  "afternoon";  
+          } else if(hour<20){  
+            return  "evening";  
+          }
+          else{
+              return "night"
+          }
     }
 
     return <div className="recommendations">
