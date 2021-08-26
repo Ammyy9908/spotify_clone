@@ -35,17 +35,7 @@ const spotify = new SpotifyWebAPI();
 function App(props) {
 
 
-  //Make a New Spotify Player
-
-  const checkPlayer = ()=>{
-    if(document.window.Spotify!==null){
-      console.log(document.window.Spotify);
-
-      
-    }
-  }
-
-  checkPlayer();
+ 
 
 
 
