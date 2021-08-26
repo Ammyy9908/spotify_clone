@@ -188,14 +188,14 @@ function Recommendation({recommendations,handlePlay}){
         const hour = new Date().getHours();
 
         if (hour < 12) {  
-            return "morning";  
+            return "morning 🙏";  
           } else if (hour < 17) {  
-            return  "afternoon";  
+            return  "afternoon 😎";  
           } else if(hour<20){  
-            return  "evening";  
+            return  "evening 🎧";  
           }
           else{
-              return "night"
+              return "night 😴"
           }
     }
 
