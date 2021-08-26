@@ -40,8 +40,6 @@ function App(props) {
 
 
   const token= !Cookies.get("SPOTIFY_TOKEN") && getTokenFromResponse();
- 
-  console.log("The Auth Token is ",token.access_token);
   token.access_token && Cookies.set("SPOTIFY_TOKEN",token.access_token,{
     expires:new Date(new Date().getTime() + 60 * 60 * 1000)
   });
