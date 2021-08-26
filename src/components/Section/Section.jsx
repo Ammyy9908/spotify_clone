@@ -1,13 +1,14 @@
 import React from 'react';
 import PlayIcon from '../../assets/PlayIcon';
 import "./Section.css"
+import handleAlbumPlay from "../../utils/AlbumPlay"
 
-
-function SectionCard({name,extra,image,handlePlay,uri}){
+function SectionCard({name,extra,image,uri}){
 
     const play = ()=>{
         alert('Button clicked');
-        handlePlay(uri);
+        console.log(uri)
+       
     }
     return <div className="section__card">
         <div className="section__card__body">
