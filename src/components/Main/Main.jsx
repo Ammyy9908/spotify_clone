@@ -190,10 +190,10 @@ function Recommendation({recommendations,handlePlay}){
         if(hour<12){
             return "morning 🙏"
         }
-        if(hour>=12){
+        if(hour>=12 || hour<=17){
             return "afternoon 😎";
         }
-        if(hour>17){
+        if(hour>17 || hour<=19){
             return "evening 🌦"
         }
         if(hour>20 || hour<0){
