@@ -3,8 +3,9 @@ import PlayIcon from '../../assets/PlayIcon';
 import "./Section.css"
 // eslint-disable-next-line
 import handleAlbumPlay from "../../utils/AlbumPlay"
+import Toast from '../Toast/Toast';
 
-function SectionCard({name,extra,image,uri}){
+function SectionCard({name,extra,image,uri,setError}){
 
     const play = ()=>{
         
@@ -13,6 +14,8 @@ function SectionCard({name,extra,image,uri}){
             console.log('Track played!');
         }).catch((e)=>{
             console.log(`Eror while starting player => ${e}`);
+            setError(e.message);
+
         })
        
     }
@@ -45,8 +48,13 @@ function SectionCard({name,extra,image,uri}){
 }
 
 function Section({text,items,handlePlay}) {
+
+    const [error,setError] = React.useState(null);
+
+
     return (
        <section className="section">
+           <Toast error={error} setError={setError}/>
            <div className="section__header">
                <div className="section__header__content">
                    <div className="section__heading">
@@ -66,7 +74,7 @@ function Section({text,items,handlePlay}) {
                 {
                     items.slice(0,6).map((item,i)=>{
                         
-                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri}/>
+                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError}/>
                     })
                 }
            </div>
