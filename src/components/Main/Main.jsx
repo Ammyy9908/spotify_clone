@@ -178,6 +178,11 @@ function BrowseCard({color,image,title}){
 
 
 function Recommendation({recommendations,handlePlay}){
+
+    const uniqueArray =recommendations.filter((v,i,a)=>a.findIndex(t=>(t.track.name===v.track.name))===i);
+
+    console.log(uniqueArray);
+
     return <div className="recommendations">
         <div className="contentSpacing">
 
