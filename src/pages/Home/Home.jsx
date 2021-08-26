@@ -33,15 +33,15 @@ function Home(props) {
     []);
 
 
-    const handleCancel = (e)=>{
-        console.log(e.target);
-        if(!e.target.classList.contains("auth_drop") && !e.target.classList.contains("avatar__image__nav") && !e.target.classList.contains("arrow__icon")
-         && !e.target.classList.contains("account__btn") && !e.target.classList.contains("logout__btn") && !e.target.classList.contains("profile__btn")){
-           return  props.setDrop(false);
-        }
-    }
+    // const handleCancel = (e)=>{
+    //     console.log(e.target);
+    //     if(!e.target.classList.contains("auth_drop") && !e.target.classList.contains("avatar__image__nav") && !e.target.classList.contains("arrow__icon")
+    //      && !e.target.classList.contains("account__btn") && !e.target.classList.contains("logout__btn") && !e.target.classList.contains("profile__btn")){
+    //        return  props.setDrop(false);
+    //     }
+    // }
     return (
-        <div className="home__container" onClick={handleCancel}>
+        <div className="home__container">
              <Helmet>
                 <meta charSet="utf-8" />
                 <title>Spotify Clone:Web Player</title>
