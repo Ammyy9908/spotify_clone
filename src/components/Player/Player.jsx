@@ -147,7 +147,7 @@ function Player(props) {
   //handlePrev
 
   const handlePrev = ()=>{
-    playNext().then((response)=>{
+    playPrev().then((response)=>{
       console.log(response)
       getCurrentTrack().then((currentTrack)=>{
       
@@ -164,7 +164,7 @@ function Player(props) {
 
 
   const handleNext = ()=>{
-    playPrev().then((response)=>{
+    playNext().then((response)=>{
       console.log(response)
       getCurrentTrack().then((currentTrack)=>{
       
