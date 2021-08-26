@@ -28,9 +28,68 @@ const spotify = new SpotifyWebAPI();
 
 
 
+
+
+
+
 function App(props) {
-   // eslint-disable-next-line
-const [accessToken,setToken] = React.useState(null);
+
+
+  //Make a New Spotify Player
+
+  const checkPlayer = ()=>{
+    if(window.Spotify!==null){
+      const player = new window.Spotify.Player({
+        name: 'Spotify Web Clone',
+        getOAuthToken: cb => { cb(Cookies.get('SPOTIFY_TOKEN')); }
+      });
+
+      player.addListener('initialization_error', ({ message }) => { console.error(message); });
+      player.addListener('authentication_error', ({ message }) => { console.error(message); });
+      player.addListener('account_error', ({ message }) => { console.error(message); });
+      player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+      // Playback status updates
+  player.addListener('player_state_changed', state => { 
+    console.log(state); 
+    console.log('Song State Change and state is ',state)
+
+    if(state){
+      const currentTrack = state.track_window.current_track;
+      const songThumb = currentTrack.album.images[2].url;
+      const songName = currentTrack.name;
+      const artists = currentTrack.artists;
+
+    document.querySelector('.current-song-thumb').setAttribute('src',songThumb);
+    document.querySelector('.song__name').textContent = songName;
+
+    document.querySelector('.song__album').textContent = artists.map((artist)=>{
+      return artist.name
+    })
+
+
+    document.querySelector('.progress__value').style.width=`${(state.position/state.duration)*100}%`;
+    }
+  
+  });
+
+  // Ready
+  player.addListener('ready', ({ device_id }) => {
+    console.log('Ready with Device ID', device_id);
+  });
+
+  // Not Ready
+  player.addListener('not_ready', ({ device_id }) => {
+    console.log('Device ID has gone offline', device_id);
+  });
+
+  player.connect();
+    }
+  }
+
+
+
+  checkPlayer();
 
 
 
