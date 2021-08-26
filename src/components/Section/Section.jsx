@@ -12,6 +12,7 @@ function SectionCard({name,extra,image,uri}){
        
     }
     return <div className="section__card">
+        <h1>Card</h1>
         <div className="section__card__body">
             <div className="card__thumb">
                 <div className="card__image">
