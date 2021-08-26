@@ -15,6 +15,29 @@ function Player(props) {
      // eslint-disable-next-line
   const [volume, setVolume] = React.useState(0);
 
+
+  const handleVolume = (e) => {
+    setVolume(e.target.value);
+    fetch(
+      `https://api.spotify.com/v1/me/player/volume?volume_percent=${volume}`,
+      {
+        method: "PUT", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Cookies.getItem("SPOTIFY_TOKEN"),
+        },
+      }
+    )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
   
   const token = Cookies.get("SPOTIFY_TOKEN");
 
@@ -257,9 +280,10 @@ function Player(props) {
                     type="range"
                     name="volume"
                     id="volume"
-                    value={props.device && props.device.volume_percent}
+                    value={volume}
                     min="0"
                     max="100"
+                    onChange={handleVolume}
                   />
                 </div>
                 {/* <HeightOutlinedIcon
