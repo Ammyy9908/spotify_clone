@@ -274,7 +274,9 @@ function Player(props) {
             </div>
             <div className="player__right">
               <div className="device__button">
+                <button>
                 <ComputerIcon/>
+                </button>
               </div>
               <div className="player__volume__control">
                 <SpeakerIcon/>

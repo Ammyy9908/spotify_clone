@@ -44,6 +44,12 @@
   .player__right svg{
     fill: rgb(160, 160, 160);
   }
+
+  .device__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .song__info > .song__thumb {
     width: 60px;
     height: 60px;
