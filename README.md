@@ -25,3 +25,10 @@
     </ul>
 </li>
 </ul>
+
+
+
+~Latest Update
+   >> User Can Now Play Albums & Track directly from the App.
+   >> User Can Control Device or Player Volume
+   

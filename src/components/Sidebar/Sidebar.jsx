@@ -65,9 +65,9 @@ function Sidebar(props) {
         <div className="sidebar">
             <div className="sidebar__container">
                 <div className="logo__banner">
-                    <a href="/">
+                    <Link to="/">
                         <Logo/>
-                    </a>
+                    </Link>
                 </div>
                 <ul className="nav__links">
                     <li><Link to="/" className={`${props.activePage==="home" && "active_link"}`}><HomeIcon/> Home</Link></li>

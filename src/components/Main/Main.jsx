@@ -51,9 +51,9 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
    return  <div className="app_bar" style={{backgroundColor:isGradient?"rgba(20, 20, 20, 0.914)":color}}>
         <div className="app__bar__container">
         <div className="nav__buttons">
-            <a href="/" onClick={handleGoBack}>
+            <Link to="/" onClick={handleGoBack}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="16 4 7 12 16 20" fill="none" stroke="#ccc"></polyline></svg>
-            </a>
+            </Link>
             {!activePage==="playlist" && <a href="/" onClick={handleGoNext}>
             <svg role="img" focusable="false" height="24" width="24" viewBox="0 0 24 24" className="Svg-ytk21e-0 fJEWJR _6fe5d5efc9b4a07d5c424071ac7cdacb-scss"><polyline points="8 4 17 12 8 20" fill="none" stroke="#ccc"></polyline></svg>
             </a>}
