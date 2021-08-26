@@ -179,7 +179,7 @@ function BrowseCard({color,image,title}){
 
 function Recommendation({recommendations,handlePlay}){
 
-    const uniqueArray =recommendations.filter((v,i,a)=>a.findIndex(t=>(t.track.name===v.track.name))===i);
+    const uniqueArray =recommendations && recommendations.filter((v,i,a)=>a.findIndex(t=>(t.track.name===v.track.name))===i);
 
     console.log(uniqueArray);
 
@@ -196,7 +196,7 @@ function Recommendation({recommendations,handlePlay}){
                    
 
                    {
-                        recommendations && recommendations.slice(0,6).map((recommendation,i)=>{
+                        uniqueArray && uniqueArray.slice(0,6).map((recommendation,i)=>{
                             return <RecommendationCard key={i} name={recommendation.track.name} image={recommendation.track.album.images[2].url} uri={recommendation.track.uri} handlePlay={handlePlay} />
                         })
                        
