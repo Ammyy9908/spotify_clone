@@ -189,8 +189,8 @@ function Recommendation({recommendations,handlePlay}){
             <div className="recommendation__section">
                 <div className="recommendation__header">
                     <h2>Good {new Date().getHours()<12 ? "morning 🙏":null} 
-                    {new Date().getHours()>=12 || new Date().getHours()<17 ? "afternoon 😎":null}
-                     {new Date().getHours()>17 || new Date().getHours()<20 ? "evening 🌦":null}
+                    {new Date().getHours()>=12 ? "afternoon 😎":null}
+                     {new Date().getHours()>17 ? "evening 🌦":null}
                       {new Date().getHours()>20 ?  "night 😴":null} </h2>
                 </div>
                 <div className="recommendation__grid">
