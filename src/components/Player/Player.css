@@ -17,7 +17,7 @@
     margin: 0 auto;
     height: 100%;
   }
-  .player__left {
+  .player__left,.player__right {
     flex: 1;
   }
   .player__center {
@@ -35,15 +35,22 @@
   .player__right {
     display: flex;
     justify-content: flex-end;
+    gap:15px;
   }
   .player__right svg{
-    fill: rgb(160, 160, 160);
+    fill: rgb(160, 160, 160) !important;
   }
 
   .device__button {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .device__button button{
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
   }
   .song__info > .song__thumb {
     width: 60px;
