@@ -6,13 +6,8 @@ import handleAlbumPlay from "../../utils/AlbumPlay"
 
 function SectionCard({name,extra,image,uri}){
 
-    const play = ()=>{
-        alert('Button clicked');
-        console.log(uri)
-       
-    }
+    
     return <div className="section__card">
-        <h1>Card</h1>
         <div className="section__card__body">
             <div className="card__thumb">
                 <div className="card__image">
@@ -21,7 +16,9 @@ function SectionCard({name,extra,image,uri}){
                 </div>
                 </div>
                 <div className="card_play_btn">
-                    <button onClick={play}>
+                    <button onClick={()=>{
+                        alert('Working!');
+                    }}>
                         <PlayIcon/>
                     </button>
                 </div>
@@ -62,7 +59,7 @@ function Section({text,items,handlePlay}) {
                 {
                     items.slice(0,6).map((item,i)=>{
                         
-                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} handlePlay={handlePlay}/>
+                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri}/>
                     })
                 }
            </div>
