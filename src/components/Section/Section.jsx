@@ -7,7 +7,7 @@ import handleAlbumPlay from "../../utils/AlbumPlay"
 function SectionCard({name,extra,image,uri}){
 
     const play = ()=>{
-        alert('Button clicked');
+        
         console.log(uri)
         handleAlbumPlay(uri).then((response)=>{
             console.log('Track played!');
