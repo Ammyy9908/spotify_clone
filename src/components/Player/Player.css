@@ -17,13 +17,8 @@
     margin: 0 auto;
     height: 100%;
   }
-  .player__left,
-  .player__right {
+  .player__left {
     flex: 1;
-  }
-
-  .player__right{
-    justify-content: flex-end;
   }
   .player__center {
     flex: 1.2;
