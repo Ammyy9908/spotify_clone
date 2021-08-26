@@ -271,7 +271,7 @@ function Player(props) {
                 <div className="player__song__volume__range">
                   <div
                     className="volume__range"
-                    style={{ width: props.device && props.device.volume_percent+"%" }}
+                    style={{ width:volume+"%" }}
                     id="volume__range"
                   >
                     <span className="thumb" id="thumb"></span>
