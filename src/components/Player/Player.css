@@ -21,6 +21,10 @@
   .player__right {
     flex: 1;
   }
+
+  .player__right{
+    justify-content: flex-end;
+  }
   .player__center {
     flex: 1.2;
   }
@@ -36,6 +40,9 @@
   .player__right {
     display: flex;
     justify-content: flex-end;
+  }
+  .player__right svg{
+    fill: rgb(160, 160, 160);
   }
   .song__info > .song__thumb {
     width: 60px;
