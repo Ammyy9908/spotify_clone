@@ -15,10 +15,10 @@ function SectionCard({name,extra,image,uri}){
                     <img src={image} alt="" />
                 </div>
                 </div>
-                <div className="card_play_btn">
-                    <button onClick={()=>{
+                <div className="card_play_btn" onClick={()=>{
                         alert('Working!');
                     }}>
+                    <button>
                         <PlayIcon/>
                     </button>
                 </div>
