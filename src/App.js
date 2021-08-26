@@ -38,8 +38,8 @@ function App(props) {
   //Make a New Spotify Player
 
   const checkPlayer = ()=>{
-    if(window.Spotify!==null){
-      console.log(window.Spotify);
+    if(document.window.Spotify!==null){
+      console.log(document.window.Spotify);
 
       
     }
