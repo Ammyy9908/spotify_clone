@@ -25,7 +25,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
     <script>
@@ -97,6 +97,7 @@
 
   // Ready
   player.addListener('ready', ({ device_id }) => {
+    Cookies.set('DEVICE_ID',device_id);
     console.log('Ready with Device ID', device_id);
   });
 

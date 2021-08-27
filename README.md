@@ -3,32 +3,9 @@
 ## Made by Sumit
 
 
-<ul>
-<li>Features</li>
-<li>Premium Users</li>
-<li>
-    <ul>
-        <li>Play Songs with Audio Feature</li>
-        <li>View His/Her Spotify Profile</li>
-        <li>View His/Her Saved Playlist & Liked Songs</li>
-        <li>Play,Pause,Next,Previous Ability</li>
-        <li>He/She can Change Player Volume</li>
-    </ul>
-</li>
-
-<li>Non-Premium Users</li>
-<li>
-    <ul>
-        <li>View His/Her Spotify Profile</li>
-        <li>View His/Her Saved Playlist & Liked Songs</li>
-        <li>User can view their followers and followed artists</li>
-    </ul>
-</li>
-</ul>
-
-
-
-~Latest Update
-   >> User Can Now Play Albums & Track directly from the App.
-   >> User Can Control Device or Player Volume
-   
+Premium User can
+        >> Play a full Playlist.
+        >> Control Current Active Device Volume.
+        >> Switch Between Multiple Devices.
+        >> Play a album from the Home Page.
+        >> Able to Create a New Playlist

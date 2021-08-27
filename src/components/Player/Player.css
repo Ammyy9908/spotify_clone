@@ -1,10 +1,43 @@
+.player_wrapper{
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+    bottom: 0;
+    z-index: 999;
+    width: 100%;
+}
+.current_playing_device{
+  width: 100%;
+  height: 25px;
+  background-color: rgb(2, 214, 66);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  
+}
+
+.current_playing_device::after{
+  content: "";
+  border-bottom: 10px solid rgb(2, 214, 66);
+  position: absolute;
+  right: 225px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  max-width: 20px;
+  top: -10px;
+}
+.active_listening{
+  margin-right: 15px;
+  font-weight:500;
+}
 .player {
-    position: fixed;
+    
     width: 100%;
     height: 90px;
     background-color: rgb(39, 39, 39);
-    bottom: 0;
-    z-index: 999;
+    
       }
   .player__disable{
       display: none;
@@ -37,8 +70,8 @@
     justify-content: flex-end;
     gap:15px;
   }
-  .player__right .device__button svg{
-    fill: rgb(160, 160, 160) !important;
+.device__button > button > svg>path{
+    stroke: rgb(160, 160, 160) !important;
   }
 
   .device__button {
@@ -46,12 +79,145 @@
     align-items: center;
     justify-content: flex-end;
     width: 100%;
+    position: relative;
   }
   .device__button button{
     background-color: transparent;
     border: 0;
     outline: 0;
     cursor: pointer;
+  }
+
+  .devices_container{
+ 
+    position: absolute;
+    background: #282828;
+    border-radius: 5px;
+    bottom: 25px;
+    animation: fadeIn 333ms cubic-bezier(.3,0,0,1);
+    right: -121px;
+    width: 280px;
+    z-index: 1002;
+    box-shadow: 0 4px 12px 4px rgb(0 0 0 / 50%);
+    display: none;
+  }
+
+  .enable_device_list{
+    display: block;
+    opacity: 1;
+    bottom: 30px;
+  }
+
+  .devices_container::after{
+    border: 10px solid transparent;
+    border-top-color: #282828;
+    bottom: -20px;
+    content: "";
+    left: auto;
+    margin-left: -10px;
+    margin-right: -10px;
+    position: absolute;
+    right: 138px;
+  }
+
+  .device__list{
+    overflow-y: auto;
+    padding: 5px;
+  }
+  .device__container__title{
+    color: rgb(255, 255, 255);
+    position: relative;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 24px;
+    text-transform: none;
+  }
+  .device__container__title h3{
+    display: block;
+    padding: 14px 35px 10px 14px;
+  }
+  .connect__header{
+    padding: 16px 0;
+    text-align: center;
+  }
+
+  .connect__header img{
+    width: 180px;
+  }
+
+  .connect-device-list{
+   padding: 0;
+    list-style: none;
+  }
+
+
+  .device-item{
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-box-pack: start;
+    -webkit-box-align: center;
+
+    align-items: center;
+    background-color: #282828 !important;
+    border: 0;
+    outline: 0;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 15px;
+    position: relative;
+    width: 100%;
+  }
+  .device-item svg{
+    padding-right: 15px;
+    stroke: #fff;
+  }
+  .device-item svg > path{
+    
+    stroke: #fff;
+  }
+  .device-info{
+    text-align: left;
+    flex: 1;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+  .connect-device-name,.spotify__connect__title{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .connect-device-name p{
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .active_device{
+    color: rgb(0, 199, 17) !important;
+  }
+  .active_device__item > svg{
+    stroke: rgb(0, 199, 17) !important;
+  }
+  .active_device__item > svg >path{
+    stroke: rgb(0, 199, 17) !important;
+  }
+
+  .spotify__connect__title__main{
+    display: flex;
+    align-items: center;
+   
+    color: #fff;
+  }
+  .spotify__connect__title__main svg{
+    fill: #fff !important;
   }
   .song__info > .song__thumb {
     width: 60px;

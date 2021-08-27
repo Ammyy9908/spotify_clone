@@ -9,7 +9,8 @@ import "./Player.css"
 
 import { connect } from "react-redux";
 import PauseIcon from "../../assets/PauseIcon";
-import { setCurrentSong, setError, setPlaying } from "../../redux/actions/_appAction";
+import {FiSmartphone} from "react-icons/fi"
+import { setActiveDevice, setCurrentSong, setDevices, setDeviceToggle, setError, setPlaying } from "../../redux/actions/_appAction";
 
 
 function ComputerIcon(){
@@ -17,10 +18,60 @@ function ComputerIcon(){
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="#000" stroke-width="2" d="M3,18 L21,18 L21,5 L21,5 C21,4.44771525 20.5522847,4 20,4 L4,4 L4,4 C3.44771525,4 3,4.44771525 3,5 L3,18 Z M2,20 L22,20 C23,20 23,19 23,19 L1,19 C1,19 1,20 2,20 Z"></path></svg>
   )
 }
+
+
+function Device({name,isActive,id,type,setDeviceToggle,device,setActiveDevice}){
+
+  const transferPlayback = async ()=>{
+    try{
+      const r = await axios.put(`https://api.spotify.com/v1/me/player`,{
+        device_ids:[id]
+      },
+      {
+        headers:{
+          "Authorization":"Bearer "+Cookies.get("SPOTIFY_TOKEN")
+        }
+      });
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+      }
+    }
+  }
+
+
+  const handleTransfer = ()=>{
+    transferPlayback().then((response)=>{
+      console.log(response);
+      
+     
+        setDeviceToggle(false);
+        setActiveDevice(device)
+      
+    }).catch((e)=>{
+      console.log(e);
+    })
+  }
+  return(
+    <button className={`device-item ${isActive && "active_device__item"}`} onClick={!isActive && handleTransfer}>
+                        
+                          {type==="Computer" ?<ComputerIcon/>:<FiSmartphone/>}
+                        
+                        <div className="device-info">
+                          <div className={`connect-device-name`}>
+                              <p className={`${isActive && "active_device"}`}>{Cookies.get('DEVICE_ID')===id ?"This Computer":name}</p>
+                          </div>
+                          
+                        </div>
+                      </button>
+  )
+}
 function Player(props) {
     console.log("Current song meta is",props.currentSong);
      // eslint-disable-next-line
-  const [volume, setVolume] = React.useState(0);
+  const [volume, setVolume] = React.useState(props.activeDevice? props.activeDevice.volume_percent:43);
 
 
   const handleVolume = (e) => {
@@ -208,9 +259,41 @@ function Player(props) {
       console.log(`Error in Playing Next Song=> ${e}`);
     })
   }
+
+
+  const getDevices = async ()=>{
+    try{
+      const r = await axios.get('https://api.spotify.com/v1/me/player/devices',{
+        headers:{
+          "Authorization":"Bearer "+Cookies.get("SPOTIFY_TOKEN")
+        }
+      });
+
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+      }
+    }
+  }
+
+
+
+  const handleGetDevices = ()=>{
+    props.setDeviceToggle(!props.isDevices);
+    getDevices().then((devices)=>{
+      console.log(devices);
+      props.setDevices(devices.devices);
+     
+    }).catch((e)=>{
+      console.log(`Error while getting devices`,e.message);
+    })
+  }
   return (
     <>
       {props.currentSong && props.currentSong.item   &&
+      <div className="player_wrapper">
         <div className={`player ${!props.currentSong && "player__disable"}`}>
           <div className="player__wrapper">
             <div className="player__left">
@@ -274,9 +357,30 @@ function Player(props) {
             </div>
             <div className="player__right">
               <div className="device__button">
-                <button>
+                <button onClick={handleGetDevices}>
                 <ComputerIcon/>
                 </button>
+
+                <div className={`devices_container ${props.isDevices && "enable_device_list"}`}>
+                  <div className="device__list">
+                    <div className="device__container__title">
+                      <h3>Connect to device</h3>
+                    </div>
+                    <div className="connect__header">
+                      <img src="https://open.scdn.co/cdn/images/connect_header@1x.8f827808.png" alt="connect__header" />
+                    </div>
+
+                    <ul className="connect-device-list">
+                     
+
+                      {
+                        props.devices && props.devices.map((device,i)=>{
+                          return <Device name={device.name} id={device.id} isActive={device.is_active} type={device.type} setDeviceToggle={props.setDeviceToggle} device={device} setActiveDevice={props.setActiveDevice}/>
+                        })
+                      }
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div className="player__volume__control">
                 <SpeakerIcon/>
@@ -306,6 +410,11 @@ function Player(props) {
           </div>
         
         </div>
+
+        {props.activeDevice && props.activeDevice.id!==Cookies.get('DEVICE_ID') &&   <div className="current_playing_device">
+                <div className="active_listening">Listening on {props.activeDevice && props.activeDevice.name}</div>
+        </div>}
+        </div>
 }
     </>
   );
@@ -315,12 +424,18 @@ function Player(props) {
 const mapStateToProps = (state)=>({
     currentSong:state.appReducer.currentSong,
     device:state.appReducer.device,
-    isPlaying:state.appReducer.isPlaying
+    isPlaying:state.appReducer.isPlaying,
+    devices:state.appReducer.devices,
+    isDevices:state.appReducer.isDevices,
+    activeDevice:state.appReducer.activeDevice
 })
 
 const mapDispatchToProps = (dispatch)=>({
     setError:(error)=>dispatch(setError(error)),
     setPlaying:(playing)=>dispatch(setPlaying(playing)),
     setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
+    setDevices:(devices)=>dispatch(setDevices(devices)),
+    setDeviceToggle:(isDevices)=>dispatch(setDeviceToggle(isDevices)),
+    setActiveDevice:(activeDevice)=>dispatch(setActiveDevice(activeDevice))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Player);

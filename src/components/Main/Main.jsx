@@ -6,7 +6,7 @@ import genres from "../../data/genres"
 import PlayIcon from '../../assets/PlayIcon'
 import MoreIcon from "../../assets/MoreIcon"
 import ArrowIcon from '../../assets/ArrowIcon'
-import { setCurrentSong, setDrop, setPlaylists, setRecommendation, setUser } from '../../redux/actions/_appAction'
+import { setCurrentSong, setDrop, setPlaying, setPlaylists, setRecommendation, setUser } from '../../redux/actions/_appAction'
 import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
@@ -47,6 +47,7 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
         history.push(`/user/${user.id}`);
     }
  // eslint-disable-next-line
+ //spotifyserversumit.herokuapp.com
     console.log("Gradient=>",isGradient);
    return  <div className="app_bar" style={{backgroundColor:isGradient?"rgba(20, 20, 20, 0.914)":color}}>
         <div className="app__bar__container">
@@ -109,7 +110,7 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
             }
 
 
-        {!user && <a href="https://spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
+        {!user && <a href="spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
         {
             user &&
             <div className="nav__buttons">
@@ -416,6 +417,31 @@ props.uid && fetchUser().then((user)=>{
     })
   }
 
+
+
+  const handlePlayCurrentDevice = async (uri)=>{
+    try{
+        const r = await axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${Cookies.get('DEVICE_ID')}`,{
+            "uris": [uri],
+          },{
+              headers:{
+                 
+                  "Authorization":`Bearer ${Cookies.get('SPOTIFY_TOKEN')}`
+              }
+          });
+
+          return r.data;
+    }
+
+    catch(e){
+        if(e.response && e.response.data){
+            return e.response.data;
+        }
+    }
+  }
+
+
+  
   const playAlbum = (uri)=>{
     handleAlbumPlay(uri).then((response)=>{
         console.log('Track played!');
@@ -423,6 +449,44 @@ props.uid && fetchUser().then((user)=>{
         console.log(`Eror while starting player => ${e}`);
     })
   }
+
+
+  const getCurrentTrack = async ()=>{
+    try{
+      const r = await axios.get(`https://api.spotify.com/v1/me/player/currently-playing`,{
+        headers:{
+          "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+        }
+      });
+
+      return r.data;
+    }
+    catch(e){
+      if(e.response && e.response.data){
+        return e.response.data;
+      }
+    }
+  }
+
+
+  const playInCurrentDevice = (uri)=>{
+    handlePlayCurrentDevice(uri).then((response)=>{
+        console.log('Track Playing!');
+
+        getCurrentTrack().then((currentTrack)=>{
+
+
+            props.setCurrentSong(currentTrack);
+      if(currentTrack.is_playing){
+        props.setPlaying(true);
+      }
+        })
+    }).catch((e)=>{
+        console.log('Error in playing track',e);
+    })
+  }
+
+  
 
 
 
@@ -441,7 +505,7 @@ props.uid && fetchUser().then((user)=>{
                     
                         {props.activePage === "home" &&
 
-                        <>{props.user &&  <Recommendation recommendations={props.recommendations} handlePlay = {playTrack}/>}
+                        <>{props.user &&  <Recommendation recommendations={props.recommendations} handlePlay = {playInCurrentDevice}/>}
                         <div className="home__body">
                             <div className="section__body">
                             <div className="sections contentSpacing">
@@ -449,7 +513,7 @@ props.uid && fetchUser().then((user)=>{
                                 
                                 {
                                     props.offline_data && props.offline_data.items.slice(2).map((section,i)=>{
-                                        return <Section text={section.name} items={section.content.items} handlePlay={playAlbum} key={i}/>
+                                        return <Section text={section.name} items={section.content.items}  key={i}/>
                                     })
                                 }
                             </div>
@@ -673,6 +737,7 @@ const mapStateToProps = (state)=>({
     recommendations:state.appReducer.recommendations,
     user:state.appReducer.user,
     dropdown:state.appReducer.dropdown,
+    currentSong:state.appReducer.currentSong
     
 })
 const mapDispatchToProps = (dispatch)=>({
@@ -680,6 +745,8 @@ const mapDispatchToProps = (dispatch)=>({
     setUser:(user)=>dispatch(setUser(user)),
     setRecommendation:(recommendations)=>dispatch(setRecommendation(recommendations)),
     setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
-    setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist))
+    setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist)),
+    setPlaying:(playing)=>dispatch(setPlaying(playing)),
+    
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Main)

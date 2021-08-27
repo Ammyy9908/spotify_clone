@@ -3,20 +3,63 @@ import PlayIcon from '../../assets/PlayIcon';
 import "./Section.css"
 // eslint-disable-next-line
 import handleAlbumPlay from "../../utils/AlbumPlay"
+import handlePlayAlbumInCurrentDevice from "../../utils/AlbumPlayInThis"
 import Toast from '../Toast/Toast';
+import { connect } from 'react-redux';
+import { setCurrentSong, setPlaying } from '../../redux/actions/_appAction';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-function SectionCard({name,extra,image,uri,setError}){
+function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,currentSong}){
+
+    const getCurrentTrack = async ()=>{
+        try{
+          const r = await axios.get(`https://api.spotify.com/v1/me/player/currently-playing`,{
+            headers:{
+              "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+            }
+          });
+    
+          return r.data;
+        }
+        catch(e){
+          if(e.response && e.response.data){
+            return e.response.data;
+          }
+        }
+      }
+
+
 
     const play = ()=>{
         
         console.log(uri)
-        handleAlbumPlay(uri).then((response)=>{
+        if(currentSong){handleAlbumPlay(uri).then((response)=>{
             console.log('Track played!');
+            getCurrentTrack().then((currentTrack)=>{
+                currentTrack && setCurrentSong(currentTrack);
+                if(currentTrack.is_playing){
+                  setPlaying(true);
+                }
+            })
         }).catch((e)=>{
             console.log(`Eror while starting player => ${e}`);
             setError(e.message);
 
         })
+    }
+    else{
+        handlePlayAlbumInCurrentDevice(uri).then((response)=>{
+            getCurrentTrack().then((currentTrack)=>{
+                currentTrack && setCurrentSong(currentTrack);
+                if(currentTrack.is_playing){
+                  setPlaying(true);
+                }
+            })
+        })
+    }
+
+
        
     }
     return <div className="section__card">
@@ -47,7 +90,7 @@ function SectionCard({name,extra,image,uri,setError}){
     </div>
 }
 
-function Section({text,items,handlePlay}) {
+function Section({text,items,currentSong,setCurrentSong,setPlaying}) {
 
     const [error,setError] = React.useState(null);
 
@@ -74,7 +117,7 @@ function Section({text,items,handlePlay}) {
                 {
                     items.slice(0,6).map((item,i)=>{
                         
-                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError}/>
+                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError} currentSong={currentSong} setCurrentSong={setCurrentSong} setPlaying={setPlaying}/>
                     })
                 }
            </div>
@@ -82,4 +125,13 @@ function Section({text,items,handlePlay}) {
     )
 }
 
-export default Section
+
+const mapStateToProps = (state)=>({
+    currentSong:state.appReducer.currentSong
+})
+const mapDispatchToProps = (dispatch)=>({
+    setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
+    setPlaying:(playing)=>dispatch(setPlaying(playing)),
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Section)

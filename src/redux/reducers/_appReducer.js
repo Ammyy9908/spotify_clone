@@ -12,7 +12,10 @@ const intialState = {
     recentPlayed:null,
     error:null,
     device:null,
-    isPlaying:false
+    isPlaying:false,
+    devices:null,
+    isDevices:false,
+    activeDevice:null
 
  }
  
@@ -22,6 +25,29 @@ const intialState = {
             return{
                ...state,
                error:action.error
+            }
+         }
+
+
+         case "SET_ACTIVE_DEVICE":{
+            return{
+               ...state,
+               activeDevice:action.activeDevice
+            }
+         }
+
+         case "SET_DEIVICE_TOGGLE":{
+            return{
+               ...state,
+               isDevices:action.isDevices
+            }
+         }
+
+
+         case "SET_DEVICES":{
+            return{
+               ...state,
+               devices:action.devices
             }
          }
 

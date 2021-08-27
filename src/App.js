@@ -3,7 +3,7 @@ import Home from './pages/Home/Home';
 import React from "react";
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setCurrentSong, setDevice, setOfflineData, setPlaying, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
+import { setActiveDevice, setCurrentSong, setDevice, setOfflineData, setPlaying, setPlaylists, setRecommendation, setToken, setUser } from './redux/actions/_appAction';
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 import Search from './pages/Search/Search';
 import {getTokenFromResponse} from "./spotify";
@@ -207,7 +207,7 @@ function App(props) {
 
     Cookies.get("SPOTIFY_TOKEN") && getCurrentTrack().then((currentTrack)=>{
       
-      props.setCurrentSong(currentTrack);
+      currentTrack && props.setCurrentSong(currentTrack);
       if(currentTrack.is_playing){
         props.setPlaying(true);
       }
@@ -221,7 +221,7 @@ function App(props) {
 
     Cookies.get("SPOTIFY_TOKEN") && getCurrentDevice().then((device)=>{
       console.log("Current Device=>",device.device);
-      props.setDevice(device.device);
+      props.setActiveDevice(device.device);
     }).catch(e=>console.error(e));
 
   
@@ -300,6 +300,7 @@ const mapDispatchToProps = (dispatch)=>({
   setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
   setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist)),
   setDevice:(device)=>dispatch(setDevice(device)),
-  setPlaying:(playing)=>dispatch(setPlaying(playing))
+  setPlaying:(playing)=>dispatch(setPlaying(playing)),
+  setActiveDevice:(activeDevice)=>dispatch(setActiveDevice(activeDevice))
 })
 export default connect(null,mapDispatchToProps)(App);

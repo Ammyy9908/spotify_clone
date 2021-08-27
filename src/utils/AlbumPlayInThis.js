@@ -1,8 +1,12 @@
-import axios from "axios"
+import axios from "axios";
 import Cookies from "js-cookie";
-const handleAlbumPlay = async (uri)=>{
+
+
+
+
+const handlePlayAlbumInCurrentDevice = async (uri)=>{
     try{
-        const r = await axios.put('https://api.spotify.com/v1/me/player/play',{
+        const r = await axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${Cookies.get('DEVICE_ID')}`,{
             "context_uri": uri,
             "offset": {
               "position": 5
@@ -23,8 +27,6 @@ const handleAlbumPlay = async (uri)=>{
             return e.response.data;
         }
     }
-}
+  }
 
-
-
-export default handleAlbumPlay;
+  export default handlePlayAlbumInCurrentDevice;

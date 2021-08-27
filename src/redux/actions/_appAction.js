@@ -76,3 +76,18 @@ export const setAccessToken = (accessToken)=>({
      type:"SET_PLAYING",
      playing
  })
+
+ export const setDevices = (devices)=>({
+     type:"SET_DEVICES",
+     devices
+ })
+
+ export const setDeviceToggle = (isDevices)=>({
+     type:"SET_DEIVICE_TOGGLE",
+     isDevices
+ })
+
+ export const setActiveDevice = (activeDevice)=>({
+     type:"SET_ACTIVE_DEVICE",
+     activeDevice
+ })
