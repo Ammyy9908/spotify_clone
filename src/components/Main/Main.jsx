@@ -110,7 +110,7 @@ function AppBar({name,trackNav,activePage,isGradient,user,setDrop,dropdown,setUs
             }
 
 
-        {!user && <a href="spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
+        {!user && <a href="http://spotifyserversumit.herokuapp.com/login" className="login__button__nav">LOG IN</a>}
         {
             user &&
             <div className="nav__buttons">
