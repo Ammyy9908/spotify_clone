@@ -6,13 +6,24 @@ import SpeakerIcon from "../../assets/SpeakerIcon";
 import NextIcon from "../../assets/NextIcon";
 import PlayIcon from "../../assets/PlayIcon";
 import "./Player.css"
-
+import {MdFavoriteBorder,MdFavorite} from "react-icons/md"
 import { connect } from "react-redux";
 import PauseIcon from "../../assets/PauseIcon";
 import {FiSmartphone} from "react-icons/fi"
-import { setActiveDevice, setCurrentSong, setDevices, setDeviceToggle, setError, setPlaying } from "../../redux/actions/_appAction";
+import { setActiveDevice, setCurrentSong, setDevices, setDeviceToggle, setError, setPlaying, setToast } from "../../redux/actions/_appAction";
 
+function Toast({message,setMessage}){
+  
 
+  setTimeout(()=>{
+      setMessage(null);
+  },5000);
+  return (
+    <div className={`toastify ${message && "toast_enable"}`}>
+      <p>{message}</p>
+    </div>
+  )
+}
 function ComputerIcon(){
   return (
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="#000" stroke-width="2" d="M3,18 L21,18 L21,5 L21,5 C21,4.44771525 20.5522847,4 20,4 L4,4 L4,4 C3.44771525,4 3,4.44771525 3,5 L3,18 Z M2,20 L22,20 C23,20 23,19 23,19 L1,19 C1,19 1,20 2,20 Z"></path></svg>
@@ -72,7 +83,7 @@ function Player(props) {
     console.log("Current song meta is",props.currentSong);
      // eslint-disable-next-line
   const [volume, setVolume] = React.useState(props.activeDevice? props.activeDevice.volume_percent:43);
-
+  const [liked,setLiked] = React.useState(false);
 
   const handleVolume = (e) => {
     setVolume(e.target.value);
@@ -290,10 +301,47 @@ function Player(props) {
       console.log(`Error while getting devices`,e.message);
     })
   }
+
+
+  const addToLibrary = (e)=>{
+    const id = e.target.parentElement.id;
+    axios.put(`https://api.spotify.com/v1/me/tracks?ids=${id}`,{},{
+      headers:{
+        "Authorization":"Bearer "+Cookies.get('SPOTIFY_TOKEN')
+      }
+    }).then((response)=>{
+      console.log(response);
+      if(response.status===200){
+        props.setToast("Added to your liked songs!");
+        setLiked(true);
+      }
+    }).catch((e)=>{
+      console.log(`Error while saving to Library!`);
+    });
+  }
+
+  const removeFromLibrary = (e)=>{
+    console.log(e.target.parentElement.parentElement);
+    const id = e.target.parentElement.parentElement.id;
+    axios.delete(`https://api.spotify.com/v1/me/tracks?ids=${id}`,{
+      headers:{
+        "Authorization":"Bearer "+Cookies.get('SPOTIFY_TOKEN')
+      }
+    }).then((response)=>{
+      console.log(response);
+      if(response.status===200){
+        props.setToast("Removed from your library!");
+        setLiked(false);
+      }
+    }).catch((e)=>{
+      console.log(`Error while removing track from Library!`);
+    });
+  }
   return (
     <>
       {props.currentSong && props.currentSong.item   &&
       <div className="player_wrapper">
+        <Toast message={props.isToast} setMessage={props.setToast}/>
         <div className={`player ${!props.currentSong && "player__disable"}`}>
           <div className="player__wrapper">
             <div className="player__left">
@@ -306,12 +354,19 @@ function Player(props) {
                   />
                 </div>
                 <div className="song__text__info">
+                  <div className="track__info">
                   <strong className="song__name">
                     {props.currentSong.item && props.currentSong.item.name}
                   </strong>
                   <span className="song__album">
                     {props.currentSong.item && props.currentSong.item.artists.map((artist)=>artist.name)}
                   </span>
+                  </div>
+                  <div className="track__like_btn">
+                    <button id={props.currentSong.item.id} onClick={liked?removeFromLibrary:addToLibrary} className="like-button">
+                      {!liked?<MdFavoriteBorder/>:<MdFavorite/>}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -427,7 +482,8 @@ const mapStateToProps = (state)=>({
     isPlaying:state.appReducer.isPlaying,
     devices:state.appReducer.devices,
     isDevices:state.appReducer.isDevices,
-    activeDevice:state.appReducer.activeDevice
+    activeDevice:state.appReducer.activeDevice,
+    isToast:state.appReducer.isToast
 })
 
 const mapDispatchToProps = (dispatch)=>({
@@ -436,6 +492,7 @@ const mapDispatchToProps = (dispatch)=>({
     setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
     setDevices:(devices)=>dispatch(setDevices(devices)),
     setDeviceToggle:(isDevices)=>dispatch(setDeviceToggle(isDevices)),
-    setActiveDevice:(activeDevice)=>dispatch(setActiveDevice(activeDevice))
+    setActiveDevice:(activeDevice)=>dispatch(setActiveDevice(activeDevice)),
+    setToast:(isToast)=>dispatch(setToast(isToast))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Player);

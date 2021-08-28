@@ -6,6 +6,30 @@
     z-index: 999;
     width: 100%;
 }
+
+.toastify{
+  
+  background-color: rgb(50, 146, 255);
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 48px;
+  color: #fff;
+  top: -45px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 10px 10px 0 rgba(0,0,0,.115);
+  border-radius: 5px;
+  transition: all .2s ease-in-out;
+  opacity: 0;
+  cursor: pointer;
+}
+.toast_enable{
+  opacity: 8;
+}
 .current_playing_device{
   width: 100%;
   height: 25px;
@@ -237,7 +261,31 @@
   }
   .song__text__info {
     display: flex;
+    align-items: center;
+    gap:10px;
+  }
+  .track__info{
+    display: flex;
+    align-items: center;
     flex-direction: column;
+  }
+
+  .track__like_btn{
+    display: flex;
+    justify-content: center;
+  }
+  .track__like_btn button{
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    outline: 0;
+    width: 25px;
+    height: 25px;
+  }
+  .track__like_btn button svg{
+    width: 18px;
+    height: 18px;
+    fill: #ccc;
   }
   .song__name {
     color: #fff;

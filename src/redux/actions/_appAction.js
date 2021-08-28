@@ -91,3 +91,13 @@ export const setAccessToken = (accessToken)=>({
      type:"SET_ACTIVE_DEVICE",
      activeDevice
  })
+
+ export const setRandomRecommendation = (randomRecommendation)=>({
+     type:'SET_RANDOM_RECOMMENDATIONS',
+     randomRecommendation
+ })
+
+ export const setToast = (isToast)=>({
+     type:"SET_TOAST",
+     isToast
+ })
