@@ -6,7 +6,7 @@ import genres from "../../data/genres"
 import PlayIcon from '../../assets/PlayIcon'
 import MoreIcon from "../../assets/MoreIcon"
 import ArrowIcon from '../../assets/ArrowIcon'
-import { setCurrentSong, setDrop, setPlaying, setPlaylists, setRecommendation, setUser } from '../../redux/actions/_appAction'
+import { setCurrentSong, setDrop, setPlaying, setPlaylists, setRandomRecommendation, setRecommendation, setUser } from '../../redux/actions/_appAction'
 import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
@@ -486,6 +486,14 @@ props.uid && fetchUser().then((user)=>{
     })
   }
 
+
+
+ 
+
+
+
+  
+
   
 
 
@@ -515,6 +523,8 @@ props.uid && fetchUser().then((user)=>{
                                     props.offline_data && props.offline_data.items.slice(2).map((section,i)=>{
                                         return <Section text={section.name} items={section.content.items}  key={i}/>
                                     })
+
+
                                 }
                             </div>
                         </div>  </div></>}
@@ -737,7 +747,8 @@ const mapStateToProps = (state)=>({
     recommendations:state.appReducer.recommendations,
     user:state.appReducer.user,
     dropdown:state.appReducer.dropdown,
-    currentSong:state.appReducer.currentSong
+    currentSong:state.appReducer.currentSong,
+    randomRecommendation:state.appReducer.randomRecommendation
     
 })
 const mapDispatchToProps = (dispatch)=>({
@@ -747,6 +758,7 @@ const mapDispatchToProps = (dispatch)=>({
     setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
     setPlaylists:(userPlaylist)=>dispatch(setPlaylists(userPlaylist)),
     setPlaying:(playing)=>dispatch(setPlaying(playing)),
+    setRandomRecommendation:(randomRecommendation)=>dispatch(setRandomRecommendation(randomRecommendation))
     
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Main)

@@ -15,7 +15,9 @@ const intialState = {
     isPlaying:false,
     devices:null,
     isDevices:false,
-    activeDevice:null
+    activeDevice:null,
+    randomRecommendation:null,
+    isToast:null
 
  }
  
@@ -25,6 +27,20 @@ const intialState = {
             return{
                ...state,
                error:action.error
+            }
+         }
+
+         case "SET_TOAST":{
+            return{
+               ...state,
+               isToast:action.isToast
+            }
+         }
+
+         case "SET_RANDOM_RECOMMENDATIONS":{
+            return{
+               ...state,
+               randomRecommendation:action.randomRecommendation
             }
          }
 
