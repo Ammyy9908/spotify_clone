@@ -354,7 +354,7 @@ function Player(props) {
                   />
                 </div>
                 <div className="song__text__info">
-                  <div className="track__info">
+                  <div className="track__info__wrapper">
                   <strong className="song__name">
                     {props.currentSong.item && props.currentSong.item.name}
                   </strong>

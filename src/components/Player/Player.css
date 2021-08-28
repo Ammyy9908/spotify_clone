@@ -264,7 +264,7 @@
     align-items: center;
     gap:10px;
   }
-  .track__info{
+  .track__info__wrapper{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -431,4 +431,3 @@
     border: 0 none;
     cursor: pointer;
   }
-  
