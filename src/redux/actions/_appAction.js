@@ -101,3 +101,8 @@ export const setAccessToken = (accessToken)=>({
      type:"SET_TOAST",
      isToast
  })
+
+ export const setModal = (isModal)=>({
+     type:"SET_MODAL",
+     isModal
+ })

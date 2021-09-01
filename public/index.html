@@ -27,7 +27,7 @@
     -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       window.onSpotifyWebPlaybackSDKReady = () => {
 
@@ -81,7 +81,26 @@
     return document.querySelector('.like-button').id===track_id;
 
   }
+
+
+  const getCurrentDevice = async ()=>{
+      try{
+        const r = await axios.get(`https://api.spotify.com/v1/me/player`,{
+          headers:{
+            "Authorization":`Bearer ${Cookies.get("SPOTIFY_TOKEN")}`
+          }
+        });
+        return r.data;
+      }
+      catch(e){
+        if(e.response && e.response.data){
+          return e.response.data;
+        }
+      }
+    }
     if(state){
+
+      Cookies.set('DEVICE_ENABLE',true);
       const currentTrack = state.track_window.current_track;
       const songThumb = currentTrack.album.images[2].url;
       const songName = currentTrack.name;
@@ -102,6 +121,15 @@
 
     // document.querySelector('.progress__value').style.width=`${(state.position/state.duration)*100}%`;
     }
+    else{
+      // getCurrentDevice().then((device)=>{
+      //   console.log('current device',device);
+      // })
+
+      Cookies.set('DEVICE_ENABLE',false)
+    }
+
+    
   
   });
 

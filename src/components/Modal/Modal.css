@@ -1,0 +1,115 @@
+.login__modal{
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0,0,0,.9);
+    z-index: 1000;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+top: 0;
+bottom: 0;
+left: 0;
+}
+
+.login__modal__popup{
+   
+    border-radius: 8px;
+justify-content: space-between;
+margin: auto;
+position: relative;
+background-image: linear-gradient(-180deg,rgba(0,0,0,.4),#282828);
+bottom: 0;
+transition: background-color .5s ease;
+top: 0;
+display: flex;
+flex-direction: column;
+}
+
+.popup__body{
+    flex-flow: row;
+flex-grow: 0;
+justify-content: center;
+padding: 64px;
+width: 810px;
+display: flex;
+}
+
+.current__track__selected{
+    margin-right: 56px;
+    display: flex;
+margin-left: 0;
+margin-right: 64px;
+min-height: 168px;
+}
+
+.current__track__selected img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.popup__body__right{
+flex-flow: column;
+font-weight: 700;
+line-height: 32px;
+color: #fff;
+display: flex;
+max-width: 304px;
+align-items: center;
+}
+.popup__body__right h2{
+    font-size: 32px;
+    margin: 8px 0px 24px;
+}
+
+.sign__up,.login_btn{
+    font-weight: 600;
+    display: block;
+padding: 13px;
+width: 100%;
+border: 2px solid transparent;
+border-radius: 500px;
+color: #fff;
+cursor: pointer;
+letter-spacing: 1.76px;
+line-height: 18px;
+font-size: 12px;
+margin-bottom: 15px;
+transition: all .2s ease-in-out;
+}
+.sign__up{
+    background-color: #1db954;
+}
+.login_btn{
+    color: #282828;
+}
+
+.sign__up:hover{
+    transform: scale(1.04);
+}
+.login_btn:hover{
+    transform: scale(1.04);
+}
+
+.modal_close{
+    width: 100%;
+    position: absolute;
+    bottom: -50px;
+}
+
+.modal_close button{
+    width: 100%;
+    height: 48px;
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 1.76px;
+line-height: 18px;
+transition: all 33ms cubic-bezier(.3,0,0,1);
+}
