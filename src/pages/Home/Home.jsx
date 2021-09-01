@@ -13,6 +13,7 @@ import Player from '../../components/Player/Player';
 import {Helmet} from "react-helmet";
 // eslint-disable-next-line
 import DeviceInfo from '../../components/DeviceInfo/DeviceInfo';
+import Modal from '../../components/Modal/Modal';
 
 function Home(props) {
     // eslint-disable-next-line
@@ -47,6 +48,7 @@ function Home(props) {
                 <title>Spotify Clone:Web Player</title>
             </Helmet>
             <Sidebar/>
+           {props.isModal &&  <Modal/>}
             <Main/>
            
             <Player/>
@@ -58,7 +60,8 @@ function Home(props) {
 
 
 const mapStateToProps = (state)=>({
-    accessToken:state.appReducer.accessToken
+    accessToken:state.appReducer.accessToken,
+    isModal:state.appReducer.isModal
 })
 const mapDispatchToProps = (dispatch)=>({
     setActivePage:(activePage)=>dispatch(setActivePage(activePage)),

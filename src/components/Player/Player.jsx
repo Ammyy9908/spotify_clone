@@ -466,7 +466,7 @@ function Player(props) {
         
         </div>
 
-        {props.activeDevice && props.activeDevice.id!==Cookies.get('DEVICE_ID') &&   <div className="current_playing_device">
+        {props.activeDevice && props.activeDevice.id!==Cookies.get('DEVICE_ID') &&   <div className={`current_playing_device ${Cookies.get('DEVICE_ENABLE')===true && "remove_current_listening"}`}>
                 <div className="active_listening">Listening on {props.activeDevice && props.activeDevice.name}</div>
         </div>}
         </div>

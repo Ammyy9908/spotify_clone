@@ -431,3 +431,7 @@
     border: 0 none;
     cursor: pointer;
   }
+
+  .remove_current_listening{
+    visibility: hidden;
+  }

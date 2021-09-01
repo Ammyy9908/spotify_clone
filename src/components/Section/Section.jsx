@@ -6,11 +6,11 @@ import handleAlbumPlay from "../../utils/AlbumPlay"
 import handlePlayAlbumInCurrentDevice from "../../utils/AlbumPlayInThis"
 import Toast from '../Toast/Toast';
 import { connect } from 'react-redux';
-import { setCurrentSong, setPlaying } from '../../redux/actions/_appAction';
+import { setCurrentSong, setModal, setPlaying } from '../../redux/actions/_appAction';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,currentSong}){
+function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,currentSong,user,setModal}){
 
     const getCurrentTrack = async ()=>{
         try{
@@ -71,7 +71,7 @@ function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,cu
                 </div>
                 </div>
                 <div className="card_play_btn">
-                    <button onClick={play}>
+                    <button onClick={user?play:()=>setModal(image)}>
                         <PlayIcon/>
                     </button>
                 </div>
@@ -90,7 +90,7 @@ function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,cu
     </div>
 }
 
-function Section({text,items,currentSong,setCurrentSong,setPlaying}) {
+function Section({text,items,currentSong,setCurrentSong,setPlaying,user,setModal}) {
 
     const [error,setError] = React.useState(null);
 
@@ -117,7 +117,7 @@ function Section({text,items,currentSong,setCurrentSong,setPlaying}) {
                 {
                     items.slice(0,6).map((item,i)=>{
                         
-                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError} currentSong={currentSong} setCurrentSong={setCurrentSong} setPlaying={setPlaying}/>
+                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError} currentSong={currentSong} setCurrentSong={setCurrentSong} setPlaying={setPlaying} user={user} setModal={setModal}/>
                     })
                 }
            </div>
@@ -127,11 +127,13 @@ function Section({text,items,currentSong,setCurrentSong,setPlaying}) {
 
 
 const mapStateToProps = (state)=>({
-    currentSong:state.appReducer.currentSong
+    currentSong:state.appReducer.currentSong,
+    user:state.appReducer.user
 })
 const mapDispatchToProps = (dispatch)=>({
     setCurrentSong:(currentSong)=>dispatch(setCurrentSong(currentSong)),
     setPlaying:(playing)=>dispatch(setPlaying(playing)),
+    setModal:(isModal)=>dispatch(setModal(isModal))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Section)

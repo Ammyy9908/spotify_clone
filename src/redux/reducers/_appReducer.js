@@ -17,7 +17,8 @@ const intialState = {
     isDevices:false,
     activeDevice:null,
     randomRecommendation:null,
-    isToast:null
+    isToast:null,
+    isModal:null
 
  }
  
@@ -27,6 +28,13 @@ const intialState = {
             return{
                ...state,
                error:action.error
+            }
+         }
+
+         case "SET_MODAL":{
+            return{
+               ...state,
+               isModal:action.isModal
             }
          }
 
