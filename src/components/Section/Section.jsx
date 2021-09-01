@@ -9,9 +9,21 @@ import { connect } from 'react-redux';
 import { setCurrentSong, setModal, setPlaying } from '../../redux/actions/_appAction';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,currentSong,user,setModal}){
+function SectionCard({id,name,extra,image,uri,setError,setCurrentSong,setPlaying,currentSong,user,setModal}){
+    console.log("current user =>",user);
+    const history = useHistory();
 
+    const moveToPlayList = (e)=>{
+        
+        if(e.target.classList.contains('section__card')){
+            console.log('Parent Cliced!');
+            console.log(uri);
+            console.log(id)
+            history.push(`/playlist/${id}`)
+        }
+    }
     const getCurrentTrack = async ()=>{
         try{
           const r = await axios.get(`https://api.spotify.com/v1/me/player/currently-playing`,{
@@ -62,7 +74,7 @@ function SectionCard({name,extra,image,uri,setError,setCurrentSong,setPlaying,cu
 
        
     }
-    return <div className="section__card">
+    return <div className="section__card" onClick={moveToPlayList}>
         <div className="section__card__body">
             <div className="card__thumb">
                 <div className="card__image">
@@ -117,7 +129,7 @@ function Section({text,items,currentSong,setCurrentSong,setPlaying,user,setModal
                 {
                     items.slice(0,6).map((item,i)=>{
                         
-                        return <SectionCard key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError} currentSong={currentSong} setCurrentSong={setCurrentSong} setPlaying={setPlaying} user={user} setModal={setModal}/>
+                        return <SectionCard id={item.id} key={item.id} name={item.name} extra={item.type==="playlist" && item.description.slice(0,49)+"..." && item.album_type==="album" && item.artists.map((artist)=><a href="/">{artist.name}</a>) && item.album_type==="single" && item.artists.map((artist)=>artist.name+"") } image={item.images[0].url} uri={item.uri} setError={setError} currentSong={currentSong} setCurrentSong={setCurrentSong} setPlaying={setPlaying} user={user} setModal={setModal}/>
                     })
                 }
            </div>
